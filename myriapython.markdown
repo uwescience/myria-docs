@@ -5,6 +5,6 @@ group: "docs"
 weight: 4
 ---
 
-# Setup
+# Myria Python
 
 **work in progress**

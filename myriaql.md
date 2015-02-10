@@ -1,9 +1,3 @@
----
-layout: default
-title: MyriaQL
-group: "docs"
-weight: 3
----
 
 MyriaQL  (pronounced "Miracle")
 ============================
