@@ -2,7 +2,7 @@
 layout: default
 title: Myria Web
 group: "docs"
-weight: 1
+weight: 2
 ---
 
 # Myria Web

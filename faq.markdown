@@ -2,7 +2,7 @@
 layout: default
 title: Myria FAQ
 group: "docs"
-weight: 1
+weight: 5
 ---
 
 # Myria FAQ
