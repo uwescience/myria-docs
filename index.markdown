@@ -7,8 +7,6 @@ weight: 0
 
 # Documentation
 
-**work in progress**
-
 This is the documentation for the Myria project.
 
-Look at the [setup](setup.html).
+To get started with Myria, look at [setup](setup.html).

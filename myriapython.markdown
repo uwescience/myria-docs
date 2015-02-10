@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Myria FAQ
+title: Setup
 group: "docs"
-weight: 6
+weight: 4
 ---
 
-# Myria FAQ
+# Setup
 
 **work in progress**

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: MyriaL
+title: MyriaQL
 group: "docs"
 weight: 3
 ---
 
-# MyriaL
+# MyriaQL
 
 **work in progress**
