@@ -12,7 +12,7 @@ Myria-Python is a Python interface to the [Myria project](http://myria.cs.washin
 The Python components include intuitive, high-level interfaces for working with Myria, along with lower-level operations for interacting directly with the Myria API.
 
 ```python
-  # Low-level interaction via the API connection
+  # Lower-level interaction via the API connection
   connection = MyriaConnection(hostname='localhost', port=8753)
   datsets = connection.datasets()
 
