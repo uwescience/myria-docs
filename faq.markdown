@@ -7,4 +7,4 @@ weight: 6
 
 # Myria FAQ
 
-1) How can I remove an existing relation through the myria-web interface?
+0. How can I remove an existing relation through the myria-web interface?
