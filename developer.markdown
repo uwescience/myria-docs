@@ -9,7 +9,7 @@ weight: 5
 
 This page explains how to get started with Myria development using GitHub, Git, and Eclipse.
 
-# 1) GitHub setup
+## 1) GitHub setup
 
 ### Create an account
 To participate in this project, you'll need a GitHub account. If you don't already have one, proceed to <https://github.com/signup/free>. Then [fork Myria](https://github.com/uwescience/myria/fork) to create a copy of the codebase in your account.
@@ -39,7 +39,7 @@ Then get the public key
 
 And add it as a new public key into GitHub's SSH settings here: <https://github.com/settings/ssh>
 
-# 2) Git setup
+## 2) Git setup
 
 The Myria project uses Git for content management. (You can probably tell this, given that you're on GitHub.com after all.) This means that your computer will need to have the `git` utility installed.
 
@@ -70,18 +70,18 @@ What you do here depends on the version of `git` you have.
 
 This is a bit complicated to explain, but this command changes the default behavior of `git push` with no arguments to something safe and sane. Making this option not the default was a mistake, which will be rectified when "Git 2.0" is released. In the meantime, this is the workaround. See `git config --help` for more information.
 
-# 3) Install the Eclipse IDE
+## 3) Install the Eclipse IDE
 
 At the time of writing, Eclipse 4.2 (Juno) is the newest version. You can download it from <http://eclipse.org/downloads/>. Your best bet might be the Eclipse IDE for Java Developers <http://eclipse.org/downloads/packages/eclipse-ide-java-developers/junosr1>, but the Classic (and probably any other version) would work just fine as well.
 
-# 4) Install Eclipse plugins
+## 4) Install Eclipse plugins
 
 We use a number of Eclipse plugins that help us find bugs and other problems in our code.
 
 * FindBugs, from the PL group at the University of Maryland. See instructions at <http://findbugs.cs.umd.edu/eclipse/>
 * Checkstyle is an open source tool that helps us write good code. See instructions at <http://eclipse-cs.sourceforge.net/downloads.html>
 
-# 5) Clone the code from GitHub
+## 5) Clone the code from GitHub
 
 Navigate to your personal copy of the Myria codebase, usually at <https://github.com/uwescience/myria> where you substitute your user name for `uwescience`. On that project page, a prominent box in the top-center of the screen shows the repository address. Generally, it defaults to HTTP, but we want to use SSH so that we do not need to authenticate every time. (See step 1 above). Push the SSH button and then copy the resulting URL.
 
@@ -99,7 +99,7 @@ Then you can clone it using the command line:
 
 Now you have the code set up locally!
 
-# 6) Setup the Eclipse classpath file
+## 6) Setup the Eclipse classpath file
 
 First, switch into the directory, of course.
 
@@ -115,11 +115,11 @@ Then use `gradlew` to make the Eclipse `.classpath` file ( `gradlew` is a `gradl
 
     Total time: 12.401 secs
 
-# 7) Open the project in Eclipse.
+## 7) Open the project in Eclipse.
 
 File > Import > Existing projects into workspace
 
-# 8) Troubleshooting
+## 8) Troubleshooting
 
 If you are experiencing erratic behaviour or Eclipse with many errors, try the following:
 
