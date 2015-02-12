@@ -5,8 +5,7 @@ group: "docs"
 weight: 3
 ---
 
-MyriaQL  (pronounced "Miracle")
-============================
+# MyriaQL  (pronounced "Miracle")
 
 MyriaQL is an imperative-yet-declarative high-level data flow language based on the relational algebra that includes support for iteration, user-defined functions, multiple expression languages, and familiar language constructs such as set comprehensions.  The language is the flagship programming interface for the Myria system, and can be compiled to a number of backends.
 
@@ -16,10 +15,9 @@ The language began as a ``whiteboard language'' for reasoning about the semantic
 
 MyriaQL is imperative: Each program is a sequence of assignment statements.  However, it is also declarative, in two ways: First, the optimizer is free to reorder blocks of code and apply other transformations as needed prior to execution, meaning that the programmer need not write the ``perfect'' program for decent performance.  Second, the right-hand-side of each assignment statement may itself be a declarative expression; programs may mix and match SQL and set comprehensions, for example. We find this combination of features to strike a useful balance between programmer control and programmer convenience.
 
-Literate Example
-================
+## Literate Example
 
-```
+```python
 -- this is a comment
 
 -- Scan a relation
@@ -78,11 +76,9 @@ T3 = [from T1 emit sin(a)/4 + b as x];
 Groups = [FROM Emp EMIT id + 3, string(salary)];
 ```
 
-MyriaQL for the SQL programmer
-==============================
+## MyriaQL for the SQL programmer
 
-Join
-----
+### Join
 
 ```sql
 SELECT E.name AS emp_name, D.name AS dept_name
@@ -98,8 +94,7 @@ out = [FROM SCAN(public:adhoc:departments) AS D, SCAN(public:adhoc:employee) AS 
 STORE(out, OUTPUT);
 ```
 
-Group By
--------
+### Group By
 
 ```sql
 SELECT Emp.id, COUNT(salary) FROM Emp;
@@ -111,8 +106,7 @@ Groups = [FROM Emp EMIT COUNT(salary), Emp.id];
 Store(Groups, OUTPUT, [$1]);
 ```
 
-Advanced Examples
-=================
+## Advanced Examples
 
 * [PageRank in MyriaQL](https://github.com/uwescience/raco/blob/master/examples/pagerank.myl)
 * [K-Means in MyriaQL](https://github.com/uwescience/raco/blob/master/examples/kmeans.myl)
