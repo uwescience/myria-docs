@@ -13,7 +13,7 @@ For an overall view of Myria as a cloud service and a big data management system
 
 To get started with Myria, take a look at the [MyriaX](myriaX.html) engine. 
 
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface. To learn more about the Myria query language, check out the [MyriaL](myriaql.html) page. 
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface. To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page. 
 
 For those interested in developing with Myria, check out our [Myria Developer](developer.html) page. 
 
