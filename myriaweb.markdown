@@ -2,13 +2,10 @@
 layout: default
 title: Myria Web
 group: "docs"
-weight: 2
+weight: 3
 ---
 
 # Myria Web
-
-Myria-Web Source Code:
-git clone https://github.com/uwescience/myria-web.git
 
 A web front-end for Myria
 =========================

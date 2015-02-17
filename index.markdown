@@ -7,12 +7,10 @@ weight: 0
 
 # Documentation
 
-This is the documentation for the Myria project.
+This is the documentation for the Myria project. You can download all the components through this [repository](https://github.com/uwescience/myria-stack).
 
-To get started with Myria, look at [setup](setup.html). 
+To get started with Myria, take a look at the [MyriaX](myriaX.html) engine. 
 
-If you'd like to use the web interface, check out [myria-web](myriaweb.html).
-
-As an alternative to myria-web, you can also send queries to myria via [python](myriapython.html).
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [myria-web](myriaweb.html) interface. 
 
 For any questions, see the [FAQ](faq.html) or contact us if you don't see your question listed. 

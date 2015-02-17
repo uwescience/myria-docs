@@ -2,9 +2,7 @@
 layout: default
 title: Myria FAQ
 group: "docs"
-weight: 6
+weight: 4
 ---
 
 # Myria FAQ
-
-0. How can I remove an existing relation through the myria-web interface?

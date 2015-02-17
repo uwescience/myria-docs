@@ -1,7 +1,7 @@
 ---
 layout: default
 title: MyriaQL
-group: "docs"
+group: "extra"
 weight: 3
 ---
 

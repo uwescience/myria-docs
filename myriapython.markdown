@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Myria Python
-group: "docs"
+group: "extra"
 weight: 4
 ---
 
