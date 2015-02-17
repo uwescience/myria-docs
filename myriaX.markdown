@@ -5,7 +5,7 @@ group: "docs"
 weight: 1
 ---
 
-# MyriaX
+# MyriaX Engine
 
 #Preparing to use
 

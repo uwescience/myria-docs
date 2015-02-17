@@ -11,6 +11,6 @@ This is the documentation for the Myria project. You can download all the compon
 
 To get started with Myria, take a look at the [MyriaX](myriaX.html) engine. 
 
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [myria-web](myriaweb.html) interface. 
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria-Web](myriaweb.html) interface. 
 
 For any questions, see the [FAQ](faq.html) or contact us if you don't see your question listed. 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Myria FAQ
-group: "docs"
+group: "extra"
 weight: 4
 ---
 
