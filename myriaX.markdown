@@ -39,7 +39,7 @@ We suggest you to use `git` because you may want to switch between branches late
 To do that, install `git` and run `git clone https://github.com/uwescience/myria`,
 which creates a directory `myria` with the master branch inside.
 
-#### Build the Myria jar.
+#### Build the Myria jar
 Get into the `myria` directory, run `./gradlew jar`.
 
 Note: if it is not a fresh installation (e.g. you just switched from another branch),
@@ -47,7 +47,7 @@ you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleani
 
 If succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-### 1. Setting up a local deployment.
+### 1. Setting up a local deployment
 Go to `myriadeploy`.
 
 #### Deployment configuration file (and Postgres setting up)
@@ -91,11 +91,11 @@ Notice this **overwrites** the cluster: no ingested relations in previous Myria 
 
 ### 2. Running the cluster
 
-#### Launch the cluster.
+#### Launch the cluster
 
     ./launch_cluster.sh <deployment.cfg>
 
-#### Check the cluster status.
+#### Check the cluster status
 
 A. Query which workers the master knows about. They better match what's in `deployment.cfg`!
 
@@ -122,7 +122,7 @@ B. Run a query.
 
 This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
-#### Shutdown the cluster.
+#### Shutdown the cluster
 
 A. Shutdown the whole cluster via the REST API:
 
