@@ -14,7 +14,8 @@ weight: 1
 #### Myria needs Java 7
 Make sure `java -version` shows `7` on your machine.
 
-If not (e.g., support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`
+If not (e.g., support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
+
     export PATH=(path to java7 bin folder):$PATH
 
 #### Passwordless SSH
@@ -25,6 +26,7 @@ You need to do `ssh localhost` without typing in password.
 2. Setting up keys. If you have not setup keys before, the easiest way to make it happen:
 
     ssh-keygen
+
     ssh-copy-id username@localhost
 
 Use default settings all the way.
@@ -65,15 +67,16 @@ In addition, take these steps:
 - Myria connects to postgres through port 5401 rather than the default. Change the port on which Postgres listens in the `postgresql.conf` file, and make sure Postgres is restarted.
 - Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
 
-    `create role uwdb with superuser;`
+    create role uwdb with superuser;
 
-    `alter role uwdb with login;`
+    alter role uwdb with login;
 
 - Create Postgres databases. Be careful that if you have multiple workers on the same machine, they need to use different Postgres databases.
 For example, the configuration in `deployment.cfg.postgres` needs the Postgres databases `myria1` and `myria2` on both worker machines:
 
-    `createdb myria1;`
-    `createdb myria2;`
+    createdb myria1;
+
+    createdb myria2;
 
 #### 1. Setup the working directories and catalogs and copy to nodes
 
@@ -89,17 +92,17 @@ Notice this **overwrites** the cluster: no ingested relations in previous Myria 
 
 #### 0. Launch the cluster.
 
-   ./launch_cluster.sh <deployment.cfg>
+    ./launch_cluster.sh <deployment.cfg>
 
 #### 1. Check the cluster status.
 
 A. Query which workers the master knows about. They better match what's in `deployment.cfg`!
 
-       curl -i localhost:8753/workers
+    curl -i localhost:8753/workers
 
 B. Query which workers are alive. 
 
-       curl -i localhost:8753/workers/alive
+    curl -i localhost:8753/workers/alive
 
 #### 2. Start using the cluster
 
@@ -108,29 +111,29 @@ There are more in `jsonQueries`, check them.
 
 A. Ingest some data.
 
-       curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
+    curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
 
-   You may need to change the path to your source data file.
+    You may need to change the path to your source data file.
 
 B. Run a query.
 
-       curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
+    curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
-   This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
+    This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
 #### 3. Shutdown the cluster.
 
 A. Shutdown the whole cluster via the REST API:
 
-   curl -i localhost:8753/server/shutdown
+    curl -i localhost:8753/server/shutdown
 
-   This will shutdown everything, including the master and all the workers.
+    This will shutdown everything, including the master and all the workers.
 
 B. If there was an error in any query, ingesting data, etc., then the cluster might freeze and most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can force-quit all machines:
 
-       ./stop_all_by_force <deployment.cfg>
+    ./stop_all_by_force <deployment.cfg>
 
-   This will go to all the nodes, find the master/worker processes under your username, and kill them.
+    This will go to all the nodes, find the master/worker processes under your username, and kill them.
 
 ## Cluster Installation
 
