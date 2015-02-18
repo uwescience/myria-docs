@@ -7,152 +7,132 @@ weight: 1
 
 # MyriaX Engine
 
-#Preparing to use
+## Local Installation
 
-#### 0. Build the Myria jar
-In Myria source (`../`), run `./gradlew jar`.
+### 0. Preparation
 
-#### 1. Myria needs Java 7
-Make sure `java -version` shows 7 on any machines in the cluster. 
+#### Myria needs Java 7
+Make sure `java -version` shows `7` on your machine.
 
 If not (e.g., support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`
-
     export PATH=(path to java7 bin folder):$PATH
 
-#### 2. You need passwordless SSH to the cluster
+#### Passwordless SSH
+You need to do `ssh localhost` without typing in password.
 
-Better make sure you can access any machine in the cluster from your client side, using `ssh` with no password. Otherwise, you will need to enter them a lot of times.
+1. Start SSH Server on your machine to enable remote login.
 
-If you have not setup keys before, the easiest way to make it happen:
+2. Setting up keys. If you have not setup keys before, the easiest way to make it happen:
 
     ssh-keygen
-    ssh-copy-id username@remote_machine_address
+    ssh-copy-id username@localhost
 
 Use default settings all the way.
-
-Then ssh to the remote machine and check
-
-    ssh username@remote_machine_address
-
 Install `ssh-copy-id` if you don't have it on your machine.
 
-# Setting up a new cluster deployment
+To test, run `ssh localhost`.
 
-#### 0. Create an updated deployment configuration file
+#### Download Myria
+We suggest you to use `git` because you may want to switch between branches later, although GitHub also offers a ZIP file of the master branch.
+To do that, install `git` and run `git clone https://github.com/uwescience/myria`,
+which creates a directory `myria` with the master branch inside.
 
-Edit the template in `deployment.cfg.sample`.
+#### Build the Myria jar.
+Get into the `myria` directory, run `./gradlew jar`.
+Note: if it is not a fresh installation (e.g. you just switched from another branch),
+you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleaning different versions of Java libraries.
 
-    cp deployment.cfg.sample deployment.cfg
-    
-A. If using sqlite as the storage backend, 
+If succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-B. If using [PostgreSQL](www.postgresql.org) as the storage backend, deployment.cfg.postgres shows an example config file. In addition, take these steps:
+### 1. Setting up a local deployment.
+Go to `myriadeploy`.
+
+#### 0. Deployment configuration file (and Postgres setting up)
+There are some example configure files,
+we use `deployment.cfg.local` as a starting point for local installation.
+
+Make a copy:
+
+    cp deployment.cfg.local deployment.cfg
+
+And make the changes you want to `deployment.cfg`.
+
+`deployment.cfg.local` uses SQLite as the storage backend. If you want to use [PostgreSQL](www.postgresql.org),
+`deployment.cfg.postgres` show how to set up the configurations.
+In addition, take these steps:
 
 - Install postgres
-- Myria connects to postgres through port 5401 rather than the default. Change the port on which postgres listens in the `postgresql.conf` file, and make sure postgres is restarted.
-- Create a `uwdb` role which Myria will use to manage the tables stored in postgres.
+- Myria connects to postgres through port 5401 rather than the default. Change the port on which Postgres listens in the `postgresql.conf` file, and make sure Postgres is restarted.
+- Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
 
     `create role uwdb with superuser;`
-    
+
     `alter role uwdb with login;`
-    
-#### 1. Setup the cluster directories and catalogs and copy to nodes
+
+- Create Postgres databases. Be careful that if you have multiple workers on the same machine, they need to use different Postgres databases.
+For example, the configuration in `deployment.cfg.postgres` needs the Postgres databases `myria1` and `myria2` on both worker machines:
+
+    `createdb myria1;`
+    `createdb myria2;`
+
+#### 1. Setup the working directories and catalogs and copy to nodes
 
 Use this script if you want to initialize (or re-initialize) a new Myria cluster configuration.
 
     ./setup_cluster.py <deployment.cfg>
 
-This will: Create a directory called `<description>` with all the catalog files, then dispatch them to corresponding machines in `<master + workers>` under `<path>`.
+This will: Create a directory called `<description>` with all the catalog files, then dispatch them to corresponding working directories.
 
 Notice this **overwrites** the cluster: no ingested relations in previous Myria instances will be inherited by this new one.
 
-# Running the cluster
+### Running the cluster
+
 #### 0. Launch the cluster.
-A. If you are lazy:
 
-       ./launch_cluster.sh <deployment.cfg>
-
-   You can run this script from any machine where you can `ssh` to every node in `master + workers`. Now you are done!
-
-B. The `launch_cluster.sh` script really just runs the following 2 scripts in order.
-    * `./start_master.py` 
-    * `./start_workers.py`
-    
-   If you want to do it separately:
-        
-       ./start_master.py <deployment.cfg>
-
-   This will remotely start the master daemon, which includes the REST API server and the "query" server. Process output `stderr` and `stdout` are redirected to corresponding files `master.stderr` and `master.stdout` in the `path` specified in the configuration file.
-    
-       ./start_workers.py <deployment.cfg>
-
-   Next, start the workers.
-     
-       ./start_workers.py <deployment.cfg>
-
-C. You can also launch the cluster using Eclipse.
-
-   Edit the run configuration for `RunMyriaForProfiling` and set the working directory in *Arguments* to the Myria working directory (for example `/tmp/myria/twoNodeLocalParallel-files` if you are using `deployment.cfg.local`). When you hit run, the cluster is started.
+   ./launch_cluster.sh <deployment.cfg>
 
 #### 1. Check the cluster status.
 
 A. Query which workers the master knows about. They better match what's in `deployment.cfg`!
 
-       curl -i beijing:8753/workers
+       curl -i localhost:8753/workers
 
-   Replace `beijing` with your master's hostname.
+B. Query which workers are alive. 
 
-B. Query which workers are alive
+       curl -i localhost:8753/workers/alive
 
-       curl -i beijing:8753/workers/alive
-
-   Replace `beijing` with your master's hostname.
-    
 #### 2. Start using the cluster
+
+Here we use eamples in the directory `jsonQueries/getting_started`.
+There are more in `jsonQueries`, check them.
 
 A. Ingest some data.
 
-       curl -i -XPOST beijing:8753/dataset -H "Content-type: application/json"  -d @./ingest_twitter.json
+       curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
 
-   Examples are in the directory `../jsonQueries`, check them.
+   You may need to change the path to your source data file.
 
 B. Run a query.
 
-       curl -i -XPOST beijing:8753/query -H "Content-type: application/json"  -d @./global_join.json
-        
-   Examples are in the directory `../jsonQueries`, check them.
-    
-   Check the result in master.stdout in your working directory, if the result is sent back to the server.
+       curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
-The above steps are repeatable, until you are willing to let them go.
+   This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
 #### 3. Shutdown the cluster.
 
 A. Shutdown the whole cluster via the REST API:
 
-    curl -i beijing:8753/server/shutdown
+   curl -i localhost:8753/server/shutdown
 
    This will shutdown everything, including the master and all the workers.
 
-B. If there was an error in any query, ingesting data, etc., then the cluster will freeze and most commands that involve workers (e.g., queries, ingestion, and shutdown) will not work.
+B. If there was an error in any query, ingesting data, etc., then the cluster might freeze and most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can force-quit all machines:
 
-   You can force-quit all machines:
-    
        ./stop_all_by_force <deployment.cfg>
-    
+
    This will go to all the nodes, find the master/worker processes under your username, and kill them.
-   
-   
-# Recompiling changes
 
-After changing the source code, follow these steps to compile and launch your updated Myria instance.
+## Cluster Installation
 
-A. Recompile the Myria jar file buy running `./gradlew jar` in the Myria source directory.
+Similar to local installation, make sure you have: Java 7, passwordless SSH from the master machine(s) to all the worker machine(s), Postgres users and databases created on your worker machine(s) on your cluster. Don't forget to specify machine names, port numbers, working directories, database names, etc, in your `deployment.cfg` file. 
 
-B. Stop any services currently connected to the running Myria instance (like myria-web). Leaving a service connected to Myria before shutting down may prevent the worker processes from stopping. 
-
-C. Shutdown any currently running Myria instance with `curl -i localhost:8753/server/shutdown` or the methods above. 
-
-D. Update Myria from the `myriadeploy\` directory with `./update_myria_jar_only.py <deployment.cfg>`
-
-E. Launch the cluster with `./launch_cluster.sh <deployment.cfg>` as above. The newly compiled Myria instance should now be running.
