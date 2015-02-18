@@ -41,6 +41,7 @@ which creates a directory `myria` with the master branch inside.
 
 #### Build the Myria jar.
 Get into the `myria` directory, run `./gradlew jar`.
+
 Note: if it is not a fresh installation (e.g. you just switched from another branch),
 you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleaning different versions of Java libraries.
 
@@ -49,7 +50,7 @@ If succeeded, you should be able to see jars in `build/libs` including `myria-0.
 ### 1. Setting up a local deployment.
 Go to `myriadeploy`.
 
-#### 0. Deployment configuration file (and Postgres setting up)
+#### Deployment configuration file (and Postgres setting up)
 There are some example configure files,
 we use `deployment.cfg.local` as a starting point for local installation.
 
@@ -78,7 +79,7 @@ For example, the configuration in `deployment.cfg.postgres` needs the Postgres d
 
     `createdb myria1; createdb myria2;`
 
-#### 1. Setup the working directories and catalogs and copy to nodes
+#### Setup the working directories and catalogs and copy to nodes
 
 Use this script if you want to initialize (or re-initialize) a new Myria cluster configuration.
 
@@ -88,13 +89,13 @@ This will: Create a directory called `<description>` with all the catalog files,
 
 Notice this **overwrites** the cluster: no ingested relations in previous Myria instances will be inherited by this new one.
 
-### Running the cluster
+### 2. Running the cluster
 
-#### 0. Launch the cluster.
+#### Launch the cluster.
 
     ./launch_cluster.sh <deployment.cfg>
 
-#### 1. Check the cluster status.
+#### Check the cluster status.
 
 A. Query which workers the master knows about. They better match what's in `deployment.cfg`!
 
@@ -104,7 +105,7 @@ B. Query which workers are alive.
 
     curl -i localhost:8753/workers/alive
 
-#### 2. Start using the cluster
+#### Start using the cluster
 
 Here we use eamples in the directory `jsonQueries/getting_started`.
 There are more in `jsonQueries`, check them.
@@ -121,7 +122,7 @@ B. Run a query.
 
 This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
-#### 3. Shutdown the cluster.
+#### Shutdown the cluster.
 
 A. Shutdown the whole cluster via the REST API:
 
@@ -137,7 +138,9 @@ This will go to all the nodes, find the master/worker processes under your usern
 
 ## Cluster Installation
 
+Specify your cluster configurations, including machine names, port numbers, working directories, database names, etc, in your `deployment.cfg` file. 
+
 Similar to local installation, make sure you have: Java 7, passwordless SSH from the master machine(s) to all the worker machine(s), Postgres users and databases created on your worker machine(s) on your cluster. 
 
-Don't forget to specify machine names, port numbers, working directories, database names, etc, in your `deployment.cfg` file. 
+Now you should be able to go!
 
