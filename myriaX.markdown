@@ -37,12 +37,13 @@ Instructions for setting up keys without installing ssh-copy-id can be found [he
 To test, run `ssh localhost`.
 
 #### Download Myria
-We suggest you to use `git` because you may want to switch between branches later, although GitHub also offers a ZIP file of the master branch.
+We suggest that you use `git` because you may want to switch between branches later, although GitHub also offers a ZIP file of the master branch.
 To do that, install `git` and run `git clone https://github.com/uwescience/myria`,
 which creates a directory `myria` with the master branch inside.
 
 #### Build the Myria jar
-Get into the `myria` directory, run `./gradlew jar`.
+
+From within the `myria` directory run `./gradlew jar`.
 
 Note: if it is not a fresh installation (e.g. you just switched from another branch),
 you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleaning different versions of Java libraries.
@@ -61,6 +62,7 @@ database management systems.  The preferred system is
 [SQLite](http://www.sqlite.org/), which is already pre-installed on
 many systems. Later, we will show how to execute queries that read
 data from HDFS or the local file system.
+XXX ADD LINK TO EXAMPLE THAT USES HDFS XXX
 
 To start a local MyriaX deployment, take the following steps:
 
@@ -71,7 +73,7 @@ Go to `myriadeploy`.
 The deployment configuration file specifies the details of the
 deployment such as the number of worker processes to start.
 
-The `myriadeploy` directory contains some example configure files.
+The `myriadeploy` directory contains some example configuration files.
 
 For a local deployment, use `deployment.cfg.local` as a starting point.
 
@@ -82,7 +84,7 @@ Make a copy:
 Make any desired changes to `deployment.cfg`.
 
 `deployment.cfg.local` uses SQLite as the storage backend. If you want to use [PostgreSQL](www.postgresql.org),
-`deployment.cfg.postgres` show how to set up the configuration file.
+`deployment.cfg.postgres` shows how to set up the configuration file.
 
 To use Postgres instead of SQLite, you need to take these additional steps:
 
@@ -96,9 +98,11 @@ To use Postgres instead of SQLite, you need to take these additional steps:
 
     `alter role uwdb with login;`
 
-- Create Postgres databases. Important: If you have multiple workers on the same machine, they need to use different Postgres databases
-(but they can share the same Postgres server instance)
-For example, the configuration in `deployment.cfg.postgres` needs the Postgres databases `myria1` and `myria2` on both worker machines:
+- Create Postgres databases. Important: If you have multiple workers
+on the same machine, they need to use different Postgres databases
+(but they can share the same Postgres server instance).s For example,
+the configuration in `deployment.cfg.postgres` needs the Postgres
+databases `myria1` and `myria2` on both worker machines:
 
     `createdb myria1; createdb myria2;`
 
@@ -177,7 +181,7 @@ XXX HERE ADD LINK TO DOCUMENTATION OF THE API XXX
 XXX HERE ADD LINK TO DOCUMENTATION OF THE JSON FORMAT FOR QUERIES  XXX
 
 We illustrate the basic functionality using examples in the directory
-`jsonQueries/getting_started`. There  `jsonQueries` directory contains additional examples.
+`jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples.
 
 A. Ingest some data.
 
@@ -197,6 +201,8 @@ XXX Add SQL for the query XXX
     curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
 This query writes results back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
+
+XXX ADD EXAMPLE OF HOW TO GET THE DATA OUT OF THE SYSTEM XXX
 
 
 #### Shutdown the cluster
@@ -231,5 +237,5 @@ machine(s), Postgres users and databases created on your worker
 machine(s) on your cluster.
 
 
-XXX POINTER TO FAQ IN CASE THERE ARE PROBLEMS WITH THE ABOVE STEPS XXX
+XXX POINTER TO FAQ and GITHUB ISSUES IN CASE THERE ARE PROBLEMS WITH THE ABOVE STEPS XXX
 
