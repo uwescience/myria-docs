@@ -20,10 +20,10 @@ If not (e.g., UW CSE support-managed machines have Java 6), you can put Java 7 i
 
 #### Passwordless SSH
 
-You need to be able to do `ssh localhost` without typing in password.
+You need to be able to do `ssh localhost` without typing your password.
 
 - Start SSH Server on your machine to enable remote login. Instructions
-for how to do this can be found here: http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/
+for how to do this can be found [here][http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/).
 
 - Setting up keys. If you have not setup keys before, the easiest way to do it is as follows:
 
@@ -32,7 +32,7 @@ for how to do this can be found here: http://osxdaily.com/2011/09/30/remote-logi
     `ssh-copy-id username@localhost`
 
 Use default settings. You may need to install `ssh-copy-id` if you don't have it on your machine.
-Instructions for setting up keys without installing ssh-copy-id can be found here: http://osxdaily.com/2012/05/25/how-to-set-up-a-password-less-ssh-login/
+Instructions for setting up keys without installing ssh-copy-id can be found [here](http://osxdaily.com/2012/05/25/how-to-set-up-a-password-less-ssh-login/).
 
 To test, run `ssh localhost`.
 
