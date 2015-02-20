@@ -14,23 +14,25 @@ weight: 1
 #### Myria needs Java 7
 Make sure `java -version` shows `7` on your machine.
 
-If not (e.g., support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
+If not (e.g., UW CSE support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
 
     export PATH=(path to java7 bin folder):$PATH
 
 #### Passwordless SSH
-You need to do `ssh localhost` without typing in password.
 
-- Start SSH Server on your machine to enable remote login.
+You need to be able to do `ssh localhost` without typing in password.
 
-- Setting up keys. If you have not setup keys before, the easiest way to make it happen:
+- Start SSH Server on your machine to enable remote login. Instructions
+for how to do this can be found here: http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/
+
+- Setting up keys. If you have not setup keys before, the easiest way to do it is as follows:
 
     `ssh-keygen`
 
     `ssh-copy-id username@localhost`
 
-Use default settings all the way.
-Install `ssh-copy-id` if you don't have it on your machine.
+Use default settings. You may need to install `ssh-copy-id` if you don't have it on your machine.
+Instructions for setting up keys without installing ssh-copy-id can be found here: http://osxdaily.com/2012/05/25/how-to-set-up-a-password-less-ssh-login/
 
 To test, run `ssh localhost`.
 
