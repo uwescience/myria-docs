@@ -23,7 +23,7 @@ If not (e.g., UW CSE support-managed machines have Java 6), you can put Java 7 i
 You need to be able to do `ssh localhost` without typing your password.
 
 - Start SSH Server on your machine to enable remote login. Instructions
-for how to do this can be found [here][http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/).
+for how to do this can be found [here](http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/).
 
 - Setting up keys. If you have not setup keys before, the easiest way to do it is as follows:
 
