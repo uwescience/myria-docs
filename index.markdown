@@ -37,7 +37,7 @@ Now you should see the Myria source code on your machine.
 ## Part 3: Run the Myria query execution engine, MyriaX
 
 MyriaX is designed to run in a shared-nothing cluster. It consists of
-a coordinator and a set of workers. The coordinator receives query
+a coordinator process and a set of worker processes. The coordinator receives query
 plans in JSON through a REST api and gets the workers to
 execute these query plans.
 
