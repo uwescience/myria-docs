@@ -9,7 +9,7 @@ weight: 1
 
 ## Local Installation
 
-### 0. Preparation
+### 1. Preparation
 
 #### Myria needs Java 7
 Make sure `java -version` shows `7` on your machine.
@@ -49,7 +49,7 @@ you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleani
 
 If the build succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-### 1. Setting up a local MyriaX deployment
+### 2. Setting up a local MyriaX deployment
 
 The next step is to setup a local deployment of the MyriaX query execution
 engine. The local deployment will have a coordinator process and some worker
@@ -103,21 +103,58 @@ For example, the configuration in `deployment.cfg.postgres` needs the Postgres d
     `createdb myria1; createdb myria2;`
 
 
-#### Setup the working directories and catalogs and copy to nodes
+#### Setup the working directories and catalogs locally and remotely
 
-Use this script if you want to initialize (or re-initialize) a new Myria cluster configuration.
+Before we can start the cluster and run queries, we need to setup the system catalogs (locally and remotely) and
+the working directories (remotely). These initialization steps are automated and executed by the `setup_cluster.py` script.
+
+To initialize (or re-initialize) a new Myria cluster configuration, execute the following command:
 
     ./setup_cluster.py <deployment.cfg>
 
-This will: Create a directory called `<description>` with all the catalog files, then dispatch them to corresponding working directories.
+This will: Create a directory locally. The name of that directory will be the name of the cluster as specified
+in the configuration file (`deployment.cfg`).  Look inside the directory.  You should see the catalog file for the master
+and one catalog file for each worker.  In the case of a deployment in a shared-nothing cluster, the worker catalogs
+get copied to the remote machines.
 
-Notice this **overwrites** the cluster: no ingested relations in previous Myria instances will be inherited by this new one.
+Notice that this **overwrites** the catalogs: This step will delete all information about previously ingested relations. 
 
-### 2. Running the cluster
+
+### 3. Running the cluster
+
+Everything is now ready to start the MyriaX query execution engine.
 
 #### Launch the cluster
 
+To start the master and the worker processes, execute the following command
+
     ./launch_cluster.sh <deployment.cfg>
+
+This command will output what looks like an error message, but it is just a warning. Ignore it. It should
+look as follows:
+
+    starting master
+
+    building file list ... done
+
+
+    sent 49 bytes  received 20 bytes  138.00 bytes/sec
+
+    total size is 407  speedup is 5.90
+
+    localhost
+
+    WARN  2015-02-19 17:40:40,973 [main] DeploymentUtils - expected exception occurred
+
+    java.net.ConnectException: Connection refused
+
+                at java.net.PlainSocketImpl.socketConnect(Native Method)
+
+                at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+
+                ....
+
+
 
 #### Check the cluster status
 
@@ -129,22 +166,38 @@ B. Query which workers are alive.
 
     curl -i localhost:8753/workers/alive
 
-#### Start using the cluster
 
-Here we use eamples in the directory `jsonQueries/getting_started`.
-There are more in `jsonQueries`, check them.
+#### Using the cluster
+
+To execute queries, we send requests to the coordinator using the coordinator's REST API.
+The coordinator takes query plans in JSON format as input.
+
+XXX HERE ADD LINK TO DOCUMENTATION OF THE API XXX
+
+XXX HERE ADD LINK TO DOCUMENTATION OF THE JSON FORMAT FOR QUERIES  XXX
+
+We illustrate the basic functionality using examples in the directory
+`jsonQueries/getting_started`. There  `jsonQueries` directory contains additional examples.
 
 A. Ingest some data.
+
+To ingest very small tables, we can send the data directly to the coordinator through the REST API.
+We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
 
     curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
 
 You may need to change the path to your source data file.
 
+XXX Add schema of the ingested dataset XXX
+
 B. Run a query.
+
+XXX Add SQL for the query XXX
 
     curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
-This query writes result back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
+This query writes results back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
+
 
 #### Shutdown the cluster
 
@@ -154,17 +207,29 @@ A. Shutdown the whole cluster via the REST API:
 
 This will shutdown everything, including the master and all the workers.
 
+
 B. If there was an error in any query, ingesting data, etc., then the cluster might freeze and most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can force-quit all machines:
 
     ./stop_all_by_force <deployment.cfg>
 
 This will go to all the nodes, find the master/worker processes under your username, and kill them.
 
-## Cluster Installation
 
-Specify your cluster configurations, including machine names, port numbers, working directories, database names, etc, in your `deployment.cfg` file. 
 
-Similar to local installation, make sure you have: Java 7, passwordless SSH from the master machine(s) to all the worker machine(s), Postgres users and databases created on your worker machine(s) on your cluster. 
+## Using a shared-nothing cluster
 
-Now you should be able to go!
+To use a shared-nothing cluster to run MyriaX instead of your local
+machine, specify the cluster configuration, including the machine names,
+port numbers, working directories, database names, etc, in your
+`deployment.cfg` file.
+
+See `deployment.cfg.sample` for an example.
+
+Similar to local installation, make sure you have: Java 7,
+passwordless SSH from the master machine(s) to all the worker
+machine(s), Postgres users and databases created on your worker
+machine(s) on your cluster.
+
+
+XXX POINTER TO FAQ IN CASE THERE ARE PROBLEMS WITH THE ABOVE STEPS XXX
 
