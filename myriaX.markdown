@@ -47,28 +47,48 @@ Get into the `myria` directory, run `./gradlew jar`.
 Note: if it is not a fresh installation (e.g. you just switched from another branch),
 you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleaning different versions of Java libraries.
 
-If succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
+If the build succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-### 1. Setting up a local deployment
+### 1. Setting up a local MyriaX deployment
+
+The next step is to setup a local deployment of the MyriaX query execution
+engine. The local deployment will have a coordinator process and some worker
+processes. All processes will run locally.
+
+For data storage, MyriaX uses existing single-node relational
+database management systems.  The preferred system is
+[PostgreSQL](www.postgresql.org), but you can also use
+[SQLite](http://www.sqlite.org/), which is already pre-installed on
+many systems. Later, we will show how to execute queries that read
+data from HDFS or the local file system.
+
+To start a local MyriaX deployment, take the following steps:
+
 Go to `myriadeploy`.
 
-#### Deployment configuration file (and Postgres setting up)
-There are some example configure files,
-we use `deployment.cfg.local` as a starting point for local installation.
+#### Deployment configuration file (and Postgres setup)
+
+The deployment configuration file specifies the details of the
+deployment such as the number of worker processes to start.
+
+The `myriadeploy` directory contains some example configure files.
+
+For a local deployment, use `deployment.cfg.local` as a starting point.
 
 Make a copy:
 
     cp deployment.cfg.local deployment.cfg
 
-And make the changes you want to `deployment.cfg`.
+Make any desired changes to `deployment.cfg`.
 
 `deployment.cfg.local` uses SQLite as the storage backend. If you want to use [PostgreSQL](www.postgresql.org),
-`deployment.cfg.postgres` show how to set up the configurations.
-In addition, take these steps:
+`deployment.cfg.postgres` show how to set up the configuration file.
+
+To use Postgres instead of SQLite, you need to take these additional steps:
 
 - Install postgres
 
-- Myria connects to postgres through port 5401 rather than the default. Change the port on which Postgres listens in the `postgresql.conf` file, and make sure Postgres is restarted.
+- Myria connects to postgres through port 5401 rather than the default port. Change the port on which Postgres listens in the `postgresql.conf` file, and make sure to restart Postgres.
 
 - Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
 
@@ -76,10 +96,12 @@ In addition, take these steps:
 
     `alter role uwdb with login;`
 
-- Create Postgres databases. Be careful that if you have multiple workers on the same machine, they need to use different Postgres databases.
+- Create Postgres databases. Important: If you have multiple workers on the same machine, they need to use different Postgres databases
+(but they can share the same Postgres server instance)
 For example, the configuration in `deployment.cfg.postgres` needs the Postgres databases `myria1` and `myria2` on both worker machines:
 
     `createdb myria1; createdb myria2;`
+
 
 #### Setup the working directories and catalogs and copy to nodes
 
