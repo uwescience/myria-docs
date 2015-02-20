@@ -25,7 +25,7 @@ need to run the following commands:
 
     git clone https://github.com/uwescience/myria-stack.git
 
-     cd myria-stack
+    cd myria-stack
 
     git submodule init
 
