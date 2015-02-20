@@ -36,8 +36,25 @@ Now you should see the Myria source code on your machine.
 
 ## Part 3: Run the Myria query execution engine, MyriaX
 
+MyriaX is designed to run in a shared-nothing cluster. It consists of
+a coordinator and a set of workers. The coordinator receives query
+plans in JSON through a REST api and gets the workers to
+execute these query plans.
 
-To get started with Myria, take a look at the [MyriaX](myriaX.html) engine. 
+There are three ways to run MyriaX:
+
+- Run MyriaX locally on a laptop or desktop. This is the easiest
+way to get to experiment with MyriaX. This setup is not designed
+to deliver high-performance. It should be thought of as an experimental
+or debug mode. 
+
+- Ryn MyriaX in an existing cluster.
+
+The instructions to run MyriaX either locally or in an existing cluster are here:  [Running the MyriaX engine](myriaX.html). 
+
+- Run MyriaX in a public cloud.
+
+The instructions to deploy MyriaX on Amazon EC2 will be posted here shortly.
 
 
 ## Part 4: Execute queries
