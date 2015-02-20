@@ -68,4 +68,4 @@ For those interested in developing with Myria, check out our [Myria Developer](d
 
 # FAQ
 
-For any questions, see the [FAQ](faq.html) or contact us if you don't see your question listed. 
+For any questions, see the [FAQ](faq.html). 
