@@ -23,10 +23,13 @@ The Myria Stack repository is the umbrella repository that contains all the
 components of the Myria stack as modules. To get all the source code, you
 need to run the following commands:
 
-- git clone https://github.com/uwescience/myria-stack.git
-- cd myria-stack
-- git submodule init
-- git submodule update --recursive
+    git clone https://github.com/uwescience/myria-stack.git
+
+     cd myria-stack
+
+    git submodule init
+
+    git submodule update --recursive
 
 Now you should see the Myria source code on your machine.
 
