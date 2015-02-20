@@ -11,7 +11,7 @@ This is the documentation for the Myria project.
 
 ## Part 1: Learning about the Myria stack
 
-For a short overall view of Myria as a cloud service and a big data management system, see our demo [paper](http://myria.cs.washington.edu/publications/Halperin_Myria_demo_SIGMOD_2014.pdf).
+For a short overview of Myria as a cloud service and a big data management system, see our demo [paper](http://myria.cs.washington.edu/publications/Halperin_Myria_demo_SIGMOD_2014.pdf).
 
 
 ## Part 2:  Getting the source code 
@@ -23,10 +23,10 @@ The Myria Stack repository is the umbrella repository that contains all the
 components of the Myria stack as modules. To get all the source code, you
 need to run the following commands:
 
-git clone https://github.com/uwescience/myria-stack.git
-cd myria-stack
-git submodule init
-git submodule update --recursive
+- git clone https://github.com/uwescience/myria-stack.git
+- cd myria-stack
+- git submodule init
+- git submodule update --recursive
 
 Now you should see the Myria source code on your machine.
 
