@@ -100,7 +100,7 @@ To use Postgres instead of SQLite, you need to take these additional steps:
 
 - Create Postgres databases. Important: If you have multiple workers
 on the same machine, they need to use different Postgres databases
-(but they can share the same Postgres server instance).s For example,
+(but they can share the same Postgres server instance). For example,
 the configuration in `deployment.cfg.postgres` needs the Postgres
 databases `myria1` and `myria2` on both worker machines:
 
@@ -134,31 +134,17 @@ To start the master and the worker processes, execute the following command
 
     ./launch_cluster.sh <deployment.cfg>
 
-This command will output what looks like an error message, but it is just a warning. Ignore it. It should
-look as follows:
+This command will output things like the following:
 
     starting master
+    ...
+    Waiting for the master to be up...
 
-    building file list ... done
+If everything was okay, it will start the workers: 
 
-
-    sent 49 bytes  received 20 bytes  138.00 bytes/sec
-
-    total size is 407  speedup is 5.90
-
-    localhost
-
-    WARN  2015-02-19 17:40:40,973 [main] DeploymentUtils - expected exception occurred
-
-    java.net.ConnectException: Connection refused
-
-                at java.net.PlainSocketImpl.socketConnect(Native Method)
-
-                at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
-
-                ....
-
-
+	starting workers
+	2 = localhost
+	1 = localhost
 
 #### Check the cluster status
 
@@ -169,7 +155,6 @@ A. Query which workers the master knows about. They better match what's in `depl
 B. Query which workers are alive. 
 
     curl -i localhost:8753/workers/alive
-
 
 #### Using the cluster
 
@@ -185,24 +170,37 @@ We illustrate the basic functionality using examples in the directory
 
 A. Ingest some data.
 
-To ingest very small tables, we can send the data directly to the coordinator through the REST API.
+To ingest tables that are not very large, we can send the data directly to the coordinator through the REST API.
 We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
 
     curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
 
-You may need to change the path to your source data file.
+The schema of the table `smallTable`, as specified in `ingest_smallTable.json`, is:
 
-XXX Add schema of the ingested dataset XXX
+    "columnTypes" : ["LONG_TYPE", "LONG_TYPE"],
+    "columnNames" : ["col1", "col2"]
+
+You may need to change the path to your source data file.
 
 B. Run a query.
 
-XXX Add SQL for the query XXX
-
     curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
+
+The Datalog expression of this query is specified in `global_join.json`. The SQL equivalence is:
+
+    Select t1.col1, t2.col2
+	From smallTable as t1, smallTable as t2
+	Where t1.col2 = t2.col1;
 
 This query writes results back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
-XXX ADD EXAMPLE OF HOW TO GET THE DATA OUT OF THE SYSTEM XXX
+C. Download a dataset.
+
+    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable/data
+
+This will download the table `smallTable` in CSV format. JSON and TSV are also supported, to do that, specify the format like this:
+
+    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable/data?format=json
 
 
 #### Shutdown the cluster
@@ -237,5 +235,7 @@ machine(s), Postgres users and databases created on your worker
 machine(s) on your cluster.
 
 
-XXX POINTER TO FAQ and GITHUB ISSUES IN CASE THERE ARE PROBLEMS WITH THE ABOVE STEPS XXX
+## Questions, issues, problems
+
+Welcome to check our [GitHub issues page](https://github.com/uwescience/myria/issues) and post your problems there. We will take care of them!
 
