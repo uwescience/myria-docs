@@ -140,7 +140,7 @@ This command will output things like the following:
     ...
     Waiting for the master to be up...
 
-If everything was okay, it will start the workers: 
+If everything is okay, it will start the workers:
 
 	starting workers
 	2 = localhost
@@ -173,14 +173,16 @@ A. Ingest some data.
 To ingest tables that are not very large, we can send the data directly to the coordinator through the REST API.
 We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
 
-    curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
-
 The schema of the table `smallTable`, as specified in `ingest_smallTable.json`, is:
 
     "columnTypes" : ["LONG_TYPE", "LONG_TYPE"],
     "columnNames" : ["col1", "col2"]
 
-You may need to change the path to your source data file.
+To ingest it:
+
+    curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
+
+You may need to change the path to your source data file in `ingest_smallTable.json`.
 
 B. Run a query.
 
