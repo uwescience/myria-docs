@@ -77,6 +77,7 @@ myria_upload --hostname localhost --port 8753 --no-ssl --user jwang --program gl
 ```
 
 ### Part 2: Building Queries
+We can run a json query by running the following program:
 ```
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='localhost', port='8753')
@@ -85,16 +86,16 @@ connection.submit_query(query="/path/to/json/query")
 
 ### Part 3: Downloading Data
 Finally, we can download the result of our query from Part 2 by running the following Python program:
+
 ```
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='localhost', port=8753)
 relation = {"userName": "jwang", "programName": "global_join", "relationName": "smallTable_join_smallTable"}
 response = connection.download_dataset(relation)
 print response
-
 ```
 
-## Loading Python in Parallel
-Coming soon...
+## Loading Datasets in Parallel
+Coming soon... 
 
 

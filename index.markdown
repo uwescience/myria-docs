@@ -38,7 +38,7 @@ Now you should see the Myria source code on your machine.
 Once you download the myria-stack, you can upload data to the Myria Service in order to start running queries. The Myria Service is currently hosted by the UWDB group's private cluster. 
 
 ### Part 1: Upload/Download Data
-To upload data, this can be done through the [Python](myriapython.html) API. Just look under the Myria Service section.
+To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
 
 ### Part 2: Build Queries
 To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor) or write the queries through [Python](myriapython.html). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
@@ -68,7 +68,7 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 The instructions to deploy MyriaX on Amazon EC2 will be posted here shortly.
 
 ### Part 2: Running queries on the service
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
 ## Myria for developers
 
