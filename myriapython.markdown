@@ -34,7 +34,7 @@ We illustrate the basic functionality using examples in the directory
 `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run through your terminal (assuming you've setup myria-python):
 
 ```
-myria-upload --overwrite --relation smallTable \path\to\data\file
+myria_upload --overwrite --relation smallTable \path\to\data\file
 ```
 
 ### Part 2: Running MyriaQL Queries
@@ -62,16 +62,36 @@ For the examples below, we used localhost as the hostname example. This can be c
 
 ### Part 1: Uploading Data
 ```
+from myria import MyriaConnection
+connection = MyriaConnection(hostname='localhost', port='8753')
+relation = {"userName": "jwang", "programName": "global_join", "relationName": "smallTable"}
+schema = {"columnTypes" : ["LONG_TYPE", "LONG_TYPE"], "columnNames" : ["follower", "followee"]}
+source = {"dataType" : "File", "filename" : "/path/to/file"}
+response = connection.upload_source(relation_key=relation, schema=schema, source=source)
+```
+
+Alternatively, you can upload data through the myira-upload tool:
+
+```
+myria_upload --hostname localhost --port 8753 --no-ssl --user jwang --program global_join --relation smallTable /path/to/file
 ```
 
 ### Part 2: Building Queries
 ```
-point to json query
+from myria import MyriaConnection
+connection = MyriaConnection(hostname='localhost', port='8753')
+connection.submit_query(query="/path/to/json/query")
 ```
 
 ### Part 3: Downloading Data
 Finally, we can download the result of our query from Part 2 by running the following Python program:
 ```
+from myria import MyriaConnection
+connection = MyriaConnection(hostname='localhost', port=8753)
+relation = {"userName": "jwang", "programName": "global_join", "relationName": "smallTable_join_smallTable"}
+response = connection.download_dataset(relation)
+print response
+
 ```
 
 
