@@ -78,6 +78,7 @@ myria_upload --hostname localhost --port 8753 --no-ssl --user jwang --program gl
 
 ### Part 2: Building Queries
 We can run a json query by running the following program:
+
 ```
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='localhost', port='8753')
