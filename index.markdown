@@ -9,12 +9,12 @@ weight: 0
 
 This is the documentation for the Myria project. 
 
-## Part 1: Learning about the Myria stack
+## Learning about the Myria stack
 
 For a short overview of Myria as a cloud service and a big data management system, see our demo [paper](http://myria.cs.washington.edu/publications/Halperin_Myria_demo_SIGMOD_2014.pdf).
 
 
-## Part 2:  Getting the source code 
+## Getting the source code 
 
 Unless you are only interested in a specific component, the best place to 
 start is with the [Myria Stack Repository](https://github.com/uwescience/myria-stack).
@@ -34,8 +34,19 @@ need to run the following commands:
 Now you should see the Myria source code on your machine.
 
 
-## Part 3: Run the Myria query execution engine, MyriaX
+## Using the Myria Service
+Once you download the myria-stack, you can upload data to the Myria Service in order to start running queries. The Myria Service is currently hosted by the UWDB group's private cluster. 
 
+### Part 1: Upload/Download Data
+To upload data, this can be done through the [Python](myriapython.html) API. Just look under the Myria Service section.
+
+### Part 2: Build Queries
+To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor) or write the queries through [Python](myriapython.html). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+
+
+## Running the MyriaX execution engine
+
+### Part 1: Setting up the Myria service
 MyriaX is designed to run in a shared-nothing cluster. It consists of
 a coordinator process and a set of worker processes. The coordinator receives query
 plans in JSON through a REST api and gets the workers to
@@ -56,16 +67,13 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 
 The instructions to deploy MyriaX on Amazon EC2 will be posted here shortly.
 
+### Part 2: Running queries on the service
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
-## Part 4: Execute queries
-
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface. To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page. 
-
-
-# Myria for developers
+## Myria for developers
 
 For those interested in developing with Myria, check out our [Myria Developer](developer.html) page. 
 
-# FAQ
+## FAQ
 
 For any questions, see the [FAQ](faq.html). 

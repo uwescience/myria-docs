@@ -24,3 +24,54 @@ The Python components include intuitive, high-level interfaces for working with 
 ## Installation
 
 Users can install the Python libraries using `pip install myria-python`. Developers should clone the [repository](https://github.com/uwescience/myria-python) and run `python setup.py develop`.
+
+
+## Using Python with the Myria Service
+
+### Part 1: Uploading Data
+
+We illustrate the basic functionality using examples in the directory
+`jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run through your terminal (assuming you've setup myria-python):
+
+```
+myria-upload --overwrite --relation smallTable \path\to\data\file
+```
+
+### Part 2: Running MyriaQL Queries
+In this Python example, we query the smallTable relation by creating a count(*) query using the MyriaQL language.In this query, we store our result to a relation called countResult. To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+
+```
+from myria import MyriaConnection
+program = "q = [from scan(public:adhoc:smallTable) as t emit count(*) as countRelation]; store(q, countResult);"
+MyriaConnection.execute_program(program)
+```
+
+### Part 3: Downloading Data
+Finally, we can download the result of our query by downloading the countResult table through the following Python program:
+
+```
+from myria import MyriaConnection
+connection = MyriaConnection(hostname='rest.myria.cs.washington.edu', port=1776, ssl=True)
+relation = {"userName": "public", "programName": "adhoc", "relationName": "countResult"}
+response = connection.download_dataset(relation)
+print response
+```
+
+## Using Python with your own Myria Deployment
+For the examples below, we used localhost as the hostname example. This can be changed depending on where you are hosting Myria. 
+
+### Part 1: Uploading Data
+```
+```
+
+### Part 2: Building Queries
+```
+point to json query
+```
+
+### Part 3: Downloading Data
+Finally, we can download the result of our query from Part 2 by running the following Python program:
+```
+```
+
+
