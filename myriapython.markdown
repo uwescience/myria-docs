@@ -18,7 +18,7 @@ The Python components include intuitive, high-level interfaces for working with 
 
   # Higher-level interaction via relation and query instances
   relation = MyriaRelation(datasets[0], connection=connection)
-  json = relation.toJson()
+  json = relation.to_json()
 ```
 
 ## Installation
