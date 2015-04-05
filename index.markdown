@@ -65,7 +65,7 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 
 - Run MyriaX in a public cloud.
 
-The instructions to deploy MyriaX on Amazon EC2 will be posted here shortly.
+The instructions to deploy MyriaX on Amazon EC2 can be found [here](myria-ec2.html).
 
 ### Part 2: Running queries on the service
 After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.

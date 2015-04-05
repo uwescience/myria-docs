@@ -14,7 +14,7 @@ The Python components include intuitive, high-level interfaces for working with 
 ```python
   # Lower-level interaction via the API connection
   connection = MyriaConnection(hostname='localhost', port=8753)
-  datsets = connection.datasets()
+  datasets = connection.datasets()
 
   # Higher-level interaction via relation and query instances
   relation = MyriaRelation(datasets[0], connection=connection)
