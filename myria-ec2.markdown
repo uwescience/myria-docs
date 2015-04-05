@@ -12,16 +12,16 @@ Myria-Ec2 is a tool that allows you to automatically deploy Myria to a cluster t
 ## Installation
 1. Install and configure StarCluster (e.g., `sudo apt-get install starcluster`).  In the ```~/.starcluster/config``` file add your AWS credentials (Access Key and Secret Access) as well as your User ID. This information can be found under the [IAM Management Console](http://aws.amazon.com/iam/). In the ```~/.starcluster/config``` file, change the key information with the name of your unique key by updating the following lines:
 
-```[key mykey]
-KEY_LOCATION=~/.ssh/mykey.rsa```
+	```[key mykey]
+	   KEY_LOCATION=~/.ssh/mykey.rsa``` 
+        
+        and 
+	
+       ```KEYNAME = mykey```
 
-and 
+      Also in the [global] section of the file, edit the INCLUDE parameter to point to the myriaccluster.config file as follows:
 
-```KEYNAME = mykey```
-
-Also in the [global] section of the file, edit the INCLUDE parameter to point to the myriaccluster.config file as follows:
-
-```INCLUDE=~/.starcluster/myriacluster.config```
+	```INCLUDE=~/.starcluster/myriacluster.config```
 
 2. Clone the Myria-EC2 repository (`git clone https://github.com/uwescience/myria-ec2.git`). Install Myria-EC2 by running `sudo python setup.py install`. The cluster configuration is located in ```~/.starcluster/myriacluster.config```
 
