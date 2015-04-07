@@ -10,7 +10,7 @@ weight: 4
 Myria-Ec2 is a tool that allows you to automatically deploy Myria to a cluster through the Amazon Ec2 service. To do this, you must have an [Amazon Ec2](http://aws.amazon.com/ec2/) account and clone the Myria-Ec2 [repository](https://github.com/uwescience/myria-ec2).
 
 ## Installation
-Install and configure StarCluster (e.g., `sudo apt-get install starcluster`). To start the setup, run ```starcluster help``` and select the second option.  In the ```~/.starcluster/config``` file add your AWS credentials fill in your AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_USER_ID. This information can be found under the [IAM Management Console](http://aws.amazon.com/iam/). 
+Install and configure StarCluster (e.g., `sudo apt-get install starcluster`). To start the setup, run ```starcluster help``` and select the second option.  In the ```~/.starcluster/config``` file add your AWS credentials fill in your AWS\_ACCESS\_KEY\_ID, AWS\_SECRET\_ACCESS\_KEY and AWS\_USER\_ID. This information can be found under the [IAM Management Console](http://aws.amazon.com/iam/). 
 
 To create a key, run ```starcluster createkey UNIQUE_KEYNAME -o ~/.ssh/mykey.rsa```. 
 
