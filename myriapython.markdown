@@ -50,11 +50,11 @@ MyriaConnection.execute_program(program)
 Finally, we can download the result of our query by downloading the countResult table through the following Python program:
 
 ```
-from myria import MyriaConnection
+from myria import MyriaConnection, MyriaRelation
 connection = MyriaConnection(hostname='rest.myria.cs.washington.edu', port=1776, ssl=True)
-relation = {"userName": "public", "programName": "adhoc", "relationName": "countResult"}
-response = connection.download_dataset(relation)
-print response
+relation = MyriaRelation('public:adhoc:smallTable', connection=connection)
+data = relation.to_dict()
+print data
 ```
 
 ## Using Python with your own Myria Deployment
@@ -89,11 +89,11 @@ connection.submit_query(query="/path/to/json/query")
 Finally, we can download the result of our query from Part 2 by running the following Python program:
 
 ```
-from myria import MyriaConnection
+from myria import MyriaConnection, MyriaRelation
 connection = MyriaConnection(hostname='localhost', port=8753)
-relation = {"userName": "jwang", "programName": "global_join", "relationName": "smallTable_join_smallTable"}
-response = connection.download_dataset(relation)
-print response
+relation = MyriaRelation('jwang:global_join:smallTable_join_smallTable', connection=connection)
+data = relation.to_dict()
+print data
 ```
 
 ## Loading Datasets in Parallel
