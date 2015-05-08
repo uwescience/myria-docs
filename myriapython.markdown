@@ -34,7 +34,7 @@ We illustrate the basic functionality using examples in the directory
 `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run through your terminal (assuming you've setup myria-python):
 
 ```
-myria_upload --overwrite --hostname demo.myria.cs.washington.edu --port 8753 --no-ssl --relation smallTable smallTable
+myria_upload --overwrite --hostname demo.myria.cs.washington.edu --port 8753 --no-ssl --relation smallTable /path/to/file
 ```
 
 ### Part 2: Running MyriaQL Queries
