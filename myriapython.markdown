@@ -13,12 +13,12 @@ The Python components include intuitive, high-level interfaces for working with 
 
 ```python
   # Lower-level interaction via the API connection
-  connection = MyriaConnection(hostname='localhost', port=8753)
+  connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
   datasets = connection.datasets()
 
   # Higher-level interaction via relation and query instances
-  relation = MyriaRelation(datasets[0], connection=connection)
-  json = relation.to_json()
+  relation = MyriaRelation(relation='public:adhoc:smallTable', connection=connection)
+  json = relation.to_dict()
 ```
 
 ## Installation
@@ -34,7 +34,7 @@ We illustrate the basic functionality using examples in the directory
 `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run through your terminal (assuming you've setup myria-python):
 
 ```
-myria_upload --overwrite --relation smallTable \path\to\data\file
+myria_upload --overwrite --hostname demo.myria.cs.washington.edu --port 8753 --no-ssl --relation smallTable smallTable
 ```
 
 ### Part 2: Running MyriaQL Queries
@@ -42,8 +42,9 @@ In this Python example, we query the smallTable relation by creating a count(*) 
 
 ```
 from myria import MyriaConnection
+connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
 program = "q = [from scan(public:adhoc:smallTable) as t emit count(*) as countRelation]; store(q, countResult);"
-MyriaConnection.execute_program(program)
+connection.execute_program(program=program, server="http://demo.myria.cs.washington.edu")
 ```
 
 ### Part 3: Downloading Data
@@ -51,7 +52,7 @@ Finally, we can download the result of our query by downloading the countResult 
 
 ```
 from myria import MyriaConnection, MyriaRelation
-connection = MyriaConnection(hostname='rest.myria.cs.washington.edu', port=1776, ssl=True)
+connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
 relation = MyriaRelation('public:adhoc:smallTable', connection=connection)
 data = relation.to_dict()
 print data

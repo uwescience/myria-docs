@@ -5,7 +5,7 @@ group: "extra"
 weight: 3
 ---
 
-# MyriaQL  (pronounced "Miracle")
+# MyriaQL
 
 MyriaQL is an imperative-yet-declarative high-level data flow language based on the relational algebra that includes support for iteration, user-defined functions, multiple expression languages, and familiar language constructs such as set comprehensions.  The language is the flagship programming interface for the Myria system, and can be compiled to a number of backends.
 
