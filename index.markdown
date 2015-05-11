@@ -40,8 +40,8 @@ Once you download the myria-stack, you can upload data to the Myria Service in o
 ### Part 1: Upload/Download Data
 To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
 
-### Part 2: Build Queries
-To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor) or write the queries through [Python](myriapython.html). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+### Part 2: Running Queries on the Service
+To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor), write the queries through [Python](myriapython.html) or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
 
 
 ## Running the MyriaX execution engine
@@ -68,7 +68,7 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 The instructions to deploy MyriaX on Amazon EC2 are here: [Running Myria on Amazon EC2](myria-ec2.html).
 
 ### Part 2: Running queries on the service
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. You can also run MyriaL queries through [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
 ## Myria for developers
 
