@@ -68,7 +68,7 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 The instructions to deploy MyriaX on Amazon EC2 are here: [Running Myria on Amazon EC2](myria-ec2.html).
 
 ### Part 2: Running queries on the service
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
+After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. You can also run MyriaL queries through [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
 ## Myria for developers
 
