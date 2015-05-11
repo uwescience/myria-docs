@@ -41,7 +41,7 @@ Once you download the myria-stack, you can upload data to the Myria Service in o
 To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
 
 ### Part 2: Running Queries on the Service
-To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor), write the queries through [Python](myriapython.html) or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor), [Python](myriapython.html), or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
 
 
 ## Running the MyriaX execution engine
