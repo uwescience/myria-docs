@@ -122,6 +122,15 @@ To start building queries once the data is uploaded, you can either write your q
 
 ## Getting the source code 
 
+For many users as the University of Washington, you do not need to download
+the source code. You can instead use the Myria production service (see above
+for requesting access).
+
+For other users insterested in deploying their own Myria service on Amazon EC2
+and for developers interested in contributing to the Myria source code, here
+are the instructions for getting started.
+
+
 Unless you are only interested in a specific component, the best place to 
 start is with the [Myria Stack Repository](https://github.com/uwescience/myria-stack).
 
@@ -142,6 +151,9 @@ Now you should see the Myria source code on your machine.
 
 
 ## Running the MyriaX execution engine
+
+As described in the overview documents above, the Myria stack comprises
+the MyriaX parallel query execution engine. 
 
 ### Part 1: Setting up the Myria service
 MyriaX is designed to run in a shared-nothing cluster. It consists of
