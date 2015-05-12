@@ -38,7 +38,7 @@ In this documentation, we will also show how to spin up a new Myria service on A
 ## Using the Myria demonstration service through the browser
 
 
-Open your browser, preferrably Chrome, and point it at: [http://myria.cs.washington.edu](http://myria.cs.washington.edu)
+Open your browser, preferrably Chrome, and point it at: [http://demo.myria.cs.washington.edu](http://demo.myria.cs.washington.edu)
 
 You will see a window that will enable you to write MyriaL or SQL queries and execute them with Myria. 
 
