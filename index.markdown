@@ -15,6 +15,108 @@ For a short overview of Myria as a cloud service and a big data management syste
 
 Also, check out the overview slides from the demonstration we gave in the eScience Community Seminar in May 2015:  [overview slides](./myria-overview-may2015.pdf)
 
+
+## The Myria demonstration and production services
+
+We are hosting two Myria services:
+
+- Demonstration service: http://demo.myria.cs.washington.edu
+
+- Production service: Please email myria-users@cs.washington.edu to request access.
+
+The demo service runs on Amazon EC2 and is a small version of Myria running on only four instances.
+The demo service is there to make it easy to get a sense of what Myria is about but don't use it to do any actual work
+nor test anything at scale.
+
+The production service is a 72 instance deployment and it runs in the private cluster of the University of Washington
+Database Group. 
+
+In this documentation, we will also show how to spin up a new Myria service on Amazon EC2.
+
+
+
+## Using the Myria demonstration service through the browser
+
+
+Open your browser, preferrably Chrome, and point it at: [http://myria.cs.washington.edu](http://myria.cs.washington.edu)
+
+You will see a window that will enable you to write MyriaL or SQL queries and execute them with Myria. 
+
+Here is a quick tour of the interface:
+
+- At the top of the screen, you should see three tabs: "Editor", "Queries", and "Datasets".
+Click on the "Datasets" tab. Here, you can see the list of all the datasets currently ingested
+and available in the service. You can click on the name of a dataset to see its metadata
+including the schema.  Click on "JSON", "CSV", or "TSV" to download the dataset in the
+specified format.
+
+- Now click on the "Queries" tab. This is where you can see all the queries that yourself
+and others have been running. Observe the keyword search window. Type, for example, 
+the word "Books" to see all queries executed on the "Brandon:Demo:Books" relation
+in Myria.
+
+- Finally, click on the "Editor" tab. This is where you can write and execute queries.
+You can start from one of the examples on the right. Click on the example and the
+query will appear in the editor window. Queries can be written in SQL or MyriaL. We
+recommend MyriaL because, in that mode, you can inter-twine SQL and MyriaL in your
+script. Try the following query, which scans the Brandon:Demo:Books relation,
+filters some elements, and computes an aggregate that it stores in a relation
+called "public:adhoc:AggregateBooks":
+
+    T1 = scan(Brandon:Demo:Books);
+
+    Filtered = SELECT * FROM T1 WHERE pages > 10;
+
+    AggregatedBooks = SELECT count(*) FROM Filtered;
+
+    Store(AggregatedBooks, AggregatedBooks);
+
+
+First click on "Parse". This will show you the query plan that Myria will
+execute. Then click on "Execute Query". This will execute the query and
+produce a link to the output. 
+
+Now select  the "Profile Query" option below the query window and
+re-execute the query with the option ON.  Below the result, you will
+see the "Profiling results". Click on it. It wil show you profiling information
+about the way the query executed. Explore the output of the profiler.
+
+Now let's execute a query that reads new data from S3. This query
+reads the data and stores it in relation "public:adhoc:smallTable". The
+extra argument in the Store statement means to hash-partition the
+data on the first attribute and store it hash-partitioned across all
+four worker instances. It is informative to first see the query plane (click on "Parse")
+and then to execute the query.
+
+    smallTable = load("https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable", csv(schema(column0:int, column1:int), skip=0));
+
+    Store(smallTable, smallTable, [$0]);
+
+
+Now, we can execute queries on the newly ingested data:
+
+    t = scan(public:adhoc:smallTable);
+
+    smallTableAggregated = select count(*) from t;
+
+    Store(smallTableAggregated, smallTableAggregated);
+
+  
+
+## Using the Myria Service from Python
+
+For more complex analysis, it may be useful to interact with Myria using Python.
+
+### Part 1: Upload/Download Data
+To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
+
+### Part 2: Running Queries on the Service
+
+To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor) as demonstrated above, [Python](myriapython.html), or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+
+
+
+
 ## Getting the source code 
 
 Unless you are only interested in a specific component, the best place to 
@@ -34,15 +136,6 @@ need to run the following commands:
 
 Now you should see the Myria source code on your machine.
 
-
-## Using the Myria Service
-Once you download the myria-stack, you can upload data to the Myria Service in order to start running queries. The Myria Service is currently hosted by the UWDB group's private cluster. 
-
-### Part 1: Upload/Download Data
-To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
-
-### Part 2: Running Queries on the Service
-To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor), [Python](myriapython.html), or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
 
 
 ## Running the MyriaX execution engine
