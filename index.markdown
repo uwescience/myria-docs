@@ -59,9 +59,12 @@ in Myria.
 You can start from one of the examples on the right. Click on the example and the
 query will appear in the editor window. Queries can be written in SQL or MyriaL. We
 recommend MyriaL because, in that mode, you can inter-twine SQL and MyriaL in your
-script. Try the following query, which scans the Brandon:Demo:Books relation,
+script.
+
+Try the following query, which scans the Brandon:Demo:Books relation,
 filters some elements, and computes an aggregate that it stores in a relation
 called "public:adhoc:AggregateBooks":
+
 
     T1 = scan(Brandon:Demo:Books);
 
