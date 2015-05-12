@@ -13,6 +13,7 @@ This is the documentation for the Myria project.
 
 For a short overview of Myria as a cloud service and a big data management system, see our demo [paper](http://myria.cs.washington.edu/publications/Halperin_Myria_demo_SIGMOD_2014.pdf).
 
+Also, check out the overview slides from the demonstration we gave in the eScience Community Seminar in May 2015:  [overview slides](./myria-overview-may2015.pdf)
 
 ## Getting the source code 
 
