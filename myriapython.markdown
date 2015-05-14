@@ -98,6 +98,18 @@ print data
 ```
 
 ## Loading Datasets in Parallel
-Coming soon... 
+```
+from myria import MyriaConnection, MyriaRelation, MyriaQuery, MyriaSchema
 
+connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
+schema = MyriaSchema({"columnTypes" : ["LONG_TYPE", "LONG_TYPE"], "columnNames" : ["follower", "followee"]})
+relation = MyriaRelation('public:adhoc:parallelLoadTest', connection=connection, schema=schema)
+
+work = [(1, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'), 
+        (2, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
+        (3, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
+        (4, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable')]
+
+queryImport = MyriaQuery.parallel_import(relation=relation, work=work)
+```
 
