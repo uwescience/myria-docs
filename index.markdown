@@ -186,7 +186,7 @@ For those interested in developing with Myria, check out our [Myria Developer](d
 ## Myria Use Cases
 Under these sections, we detail instructions on how to ingest and run queries required for a specific use case. 
 
-* [N-body](usecase-astronomy)
+* [N-body](usecase-astronomy.html)
 
 ## FAQ
 
