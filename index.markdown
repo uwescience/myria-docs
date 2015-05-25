@@ -7,7 +7,7 @@ weight: 0
 
 # Getting Started with Myria
 
-This is the documentation for the Myria project. 
+This is the documentation for the Myria project.
 
 ## Learning about the Myria stack
 
@@ -182,6 +182,11 @@ After you setup the engine, you can upload data and run queries through the [Pyt
 ## Myria for developers
 
 For those interested in developing with Myria, check out our [Myria Developer](developer.html) page. 
+
+## Myria Use Cases
+Under these sections, we detail instructions on how to ingest and run queries required for a specific use case. 
+
+* [N-body](usecase-astronomy)
 
 ## FAQ
 
