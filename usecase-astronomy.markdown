@@ -8,22 +8,44 @@ weight: 0
 # N-body Use Case
 
 ## Ingesting Data
-To ingest simulation data into Myria, you can either upload data in Tipsy or NChilada format. We detail instructions for each below.
+To ingest simulation data into Myria, you can either upload data in Tipsy or NChilada format. We detail instructions for each below. Before you start, make sure to clone the following repository: [MyMergerTree](https://github.com/uwdb/MyMergerTree)
+
+* Install Myria-Python and Raco
+	* Navigate to ```/MyMergerTree/libs/raco``` folder and run ```python setup.py install```. Might need to use sudo.
+	* Also run ```pip install myria-python```
 
 * Tipsy
-  * For this format, first upload the simulation data under the master at vega.cs.washington.edu. If you need a directory or more space to upload your data, please contact the myria-users mailing list. 
-  * After the data is uploaded in the cluster you'll then need to ingest it into the Myria system. Use the following [bash](/docs/usecase-scripts/nbody/generate_ingest.sh) file to ingest the data. In this file, you'll need to replace a few sections that are placed in brackets (we also have a working example based on the romulus8 dataset [here](/docs/usecase-scripts/nbody/generate_ingest_example.sh)):
-    * [SNAPSHOTS] - This should be replaced with the snapshot numbers listed in order separated by spaces
-    * [PATH\_TO_SCRIPTS] - This should be replaced by the path of the data in vega.cs.washington.edu.
-    * [SIMULATION_NAME] - This should be replaced by the name fo the simulation you would like to address the dataset by (i.e. Romulus, Cosmo50, etc.). 
-    * [USER_NAME] - your username. This can be anything you'd like. 
-  * Once this is filled out, run the bash script. This will create several ingest files as well as a file called `ingest_all_cosmo.sh`. Running `ingest_all_cosmo.sh` will sequentially ingest each snapshot you've listed out in the bash script. In the Myria website, you can check the progress of each ingest under the Queries tab. 
+	* First, upload your files to vega@cs.washington.edu. Please contact the myria-users mailing list at myria-users@cs.washington.edu to reqest access. 
+	* From the repository, navigate to ```/MyMergerTree/ingest/ingest_tipsy```. Here, you will find a file called ```generate_ingest_template.sh```. In this file, replace lines 4-10 with information about your dataset. Below we describe each parameter:
+		- DATA_PATH: location of the tipsy files in vega
+		- IORD: name of the file extension for iord files
+		- GRP: name of the file extension for grp files
+		- SIMULATION_PREFIX: name of the prefix for each file
+		- SNAPSHOT_LIST: list of snapshots in the simulation
+		- USER_NAME: the desired username for the relations that will be ingested into Myria
+		- PROGRAM_NAME: the desired program name for the relations that will be ingested into Myria
+	* Once filled out, run the ```generate_ingest_template.sh``` bash file. This will create a bash file called ```ingest_all_cosmo.sh``` along with a series of ingest files for each snapshot. Running ```ingest_all_cosmo.sh``` will run each ingest sequentially. Check the progress of the ingest [here](https://myria-web.appspot.com/queries).
+	* Once ingested, you will need to repartition the snapshot data among the workers. To do this, go to ```/MyMergerTree/ingest/partition_tipsy``` directory. Here, open the ```partition_snapshots.py``` file and fill out the following information:
+		- SNAPSHOT_LIST: the list of snapshots ingested
+		- USER_NAME: the username used during ingest
+		- PROGRAM_NAME: the program name used during ingest
+	* Once filled out, running the python file will sequentially hash partition each snapshot.
 
 * NChilada
-	* For this format, it is recommended to upload the data into HDFS since the file sizes are larger. (Instructions to do this from Globus coming soon).
-	* After the data is loaded into HDFS on vega.cs.washington.edu, we can then run the following [script](/docs/usecase-scripts/nbody/parallel_ingest.json) to ingest the data into Myria.  (Instructions coming soon).
+	* Coming soon
 
 ## Running Queries
+* Step 1: Creating Edges and Nodes
+ * In order to create the merger trees, you will need to create the edges and the nodes first. First go to ```/MyMergerTree/queries```. Here, you will need to open ```create_edges.py``` and ```create_nodes.py`` and fill out the parameters at the top of the files. The parameters for SNAPSHOT\_LIST, USER\_NAME and PROGRAM\_NAME stay the same as before. For the new parameters:
+	- DM\_SOL\_UNIT: the dmsolunit for the simulation
+	- NON\_GRP\_PARTICLES: the group number of the particles that do not belong to a group (i.e. -1 or 0)
+	- IORDER: the name of the iOrder column (i.e. Might be iord or iOrder depending on the simulation)
+  * Run ```create_edges.py``` and ```create_nodes.py``` files in any order
+* Step 2: Creating Custom Filter Queries
+  * You can create queries to filter the edges and nodes table (named edgesTable and nodesTable respectively). Examples coming soon.
+
+* Step 3: Prepare Data for Visualization
+  * After filtering edges, open the ```queries_for_visualization.py``` file. Here, there are two new parameters, NODES\_RELATION and EDGES\_RELATION. This depends on the relation names for the resulting nodes and edges relations you generated after the filters. Once you run this python file, you can visualize the results.
 
 ## Example Custom Queries
 
