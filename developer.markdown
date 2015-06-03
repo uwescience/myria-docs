@@ -47,7 +47,7 @@ The Myria project uses Git for content management. (You can probably tell this, 
 * On Mac OS X, you can obtain `git` by installing the XCode command line tools.
 * On many flavors of Linux, you can obtain `git` via your package manager, usually under the package name `git-core`.
   * For instance, on  Ubuntu: `sudo apt-get install git-core`
-* On Windows, I'm not sure. Use Google, and then please update this Wiki page.
+* On Windows, one easy option is to install [Github for Windows](https://windows.github.com/).
 
 ### Configure your name and email address
 

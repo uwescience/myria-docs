@@ -50,7 +50,8 @@ To change the Myria instance from the default (vega), modify appengine/myria_web
 
 # Which branch to be on
 
-There are two notable branches in the myria-web repository: *master* and *production*.
+There are two notable branches in the myria-web repository:
+
 * `master` is the latest development code
 * `production` is the code currently running the web interface on <https://demo.myria.cs.washington.edu>
 

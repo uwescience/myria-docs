@@ -63,7 +63,7 @@ script.
 
 Try the following query, which scans the Brandon:Demo:Books relation,
 filters some elements, and computes an aggregate that it stores in a relation
-called "public:adhoc:AggregateBooks":
+called "public:adhoc:AggregatedBooks":
 
 
     T1 = scan(Brandon:Demo:Books);
