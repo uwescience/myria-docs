@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Myria Ec2
+title: Myria EC2
 group: "extra"
 weight: 4
 ---

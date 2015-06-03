@@ -8,37 +8,44 @@ weight: 0
 # Getting Started with Myria
 
 This is the documentation for the Myria project.
+We cover the following topics:
+
+* How to use the Myria demonstration and production services hosted by UW, from either the web front-end, the Python API or an IPython notebook.
+* How to setup your own Myria service, either on a local laptop, cluster or Amazon EC2 instance. 
+	* A case study runnable on your own Myria service for an N-body simulation.
+
+Developers, please see our [Myria Developer](developer.html) page.
+
+Questions? See our [FAQ](faq.html). 
 
 ## Learning about the Myria stack
 
 For a short overview of Myria as a cloud service and a big data management system, see our demo [paper](http://myria.cs.washington.edu/publications/Halperin_Myria_demo_SIGMOD_2014.pdf).
 
-Also, check out the overview slides from the demonstration we gave in the eScience Community Seminar in May 2015:  [overview slides](./myria-overview-may2015.pdf)
+Check out the overview slides from the demonstration we gave in the eScience Community Seminar in May 2015:  [overview slides](./myria-overview-may2015.pdf).
 
+The [Myria Middleware doc page](myriaMiddleware.html) has an excellent overview of how Myria's three components are designed and fit together: MyriaX, MyriaMiddleware and MyriaWeb.
 
-## The Myria demonstration and production services
+## Using Myria services hosted by UW
 
 We are hosting two Myria services:
 
-- Demonstration service: http://demo.myria.cs.washington.edu
-
-- Production service: Please email myria-users@cs.washington.edu to request access.
-
+- Demonstration service: <http://demo.myria.cs.washington.edu>
 The demo service runs on Amazon EC2 and is a small version of Myria running on only four instances.
 The demo service is there to make it easy to get a sense of what Myria is about but don't use it to do any actual work
 nor test anything at scale.
 
+- Production service: Please email <myria-users@cs.washington.edu> to request access.
 The production service is a 72 instance deployment and it runs in the private cluster of the University of Washington
 Database Group. 
 
-In this documentation, we will also show how to spin up a new Myria service on Amazon EC2.
+See the following section for how to spin up a myria instance on your local computer, cluster or Amazon EC2 instance.
 
 
+### Using the Myria demonstration service through the browser
 
-## Using the Myria demonstration service through the browser
 
-
-Open your browser, preferrably Chrome, and point it at: [http://demo.myria.cs.washington.edu](http://demo.myria.cs.washington.edu)
+Open your browser, preferably Chrome, and point it at: [http://demo.myria.cs.washington.edu](http://demo.myria.cs.washington.edu)
 
 You will see a window that will enable you to write MyriaL or SQL queries and execute them with Myria. 
 
@@ -106,30 +113,25 @@ Now, we can execute queries on the newly ingested data:
 
   
 
-## Using the Myria Service from Python
+### Using the Myria Service from Python
 
 For more complex analysis, it may be useful to interact with Myria using Python.
 
-### Part 1: Upload/Download Data
-To upload data, this can be done through the [Python](myriapython.html) API. Look under the "Using Python with the Myria Service" section.
+#### Part 1: Upload/Download Data
+To upload data, this can be done through the [Python API](myriapython.html). Look under the "Using Python with the Myria Service" section.
 
-### Part 2: Running Queries on the Service
+#### Part 2: Running Queries on the Service
 
 To start building queries once the data is uploaded, you can either write your queries directly through our [Myria Web Frontend](https://demo.myria.cs.washington.edu/editor) as demonstrated above, [Python](myriapython.html), or [IPython Notebook](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb). To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
 
 
+## Using your own Myria stack
 
+For many users at the University of Washington, you do not need to download
+the source code or start your own stack. 
+You can instead use the Myria production service (see above for requesting access).
 
-## Getting the source code 
-
-For many users as the University of Washington, you do not need to download
-the source code. You can instead use the Myria production service (see above
-for requesting access).
-
-For other users insterested in deploying their own Myria service on Amazon EC2
-and for developers interested in contributing to the Myria source code, here
-are the instructions for getting started.
-
+### Getting source code for the whole Myria stack
 
 Unless you are only interested in a specific component, the best place to 
 start is with the [Myria Stack Repository](https://github.com/uwescience/myria-stack).
@@ -150,12 +152,9 @@ Now you should see the Myria source code on your machine.
 
 
 
-## Running the MyriaX execution engine
+### Running the MyriaX execution engine part of the Myria stack
 
-As described in the overview documents above, the Myria stack comprises
-the MyriaX parallel query execution engine. 
-
-### Part 1: Setting up the Myria service
+#### Part 1: Setting up the Myria service
 MyriaX is designed to run in a shared-nothing cluster. It consists of
 a coordinator process and a set of worker processes. The coordinator receives query
 plans in JSON through a REST api and gets the workers to
@@ -168,7 +167,7 @@ way to get to experiment with MyriaX. This setup is not designed
 to deliver high-performance. It should be thought of as an experimental
 or debug mode. 
 
-- Ryn MyriaX in an existing cluster.
+- Run MyriaX in an existing cluster.
 
 The instructions to run MyriaX either locally or in an existing cluster are here:  [Running the MyriaX engine](myriaX.html). 
 
@@ -176,18 +175,11 @@ The instructions to run MyriaX either locally or in an existing cluster are here
 
 The instructions to deploy MyriaX on Amazon EC2 are here: [Running Myria on Amazon EC2](myria-ec2.html).
 
-### Part 2: Running queries on the service
-After you setup the engine, you can upload data and run queries through the [Python](myriapython.html) API under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
+#### Part 2: Running queries on the service
+After you setup the engine, you can upload data and run queries through the [Python API](myriapython.html) under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
-## Myria for developers
-
-For those interested in developing with Myria, check out our [Myria Developer](developer.html) page. 
-
-## Myria Use Cases
+### Myria Use Cases
 Under these sections, we detail instructions on how to ingest and run queries required for a specific use case. 
 
 * [N-body](usecase-astronomy.html)
 
-## FAQ
-
-For any questions, see the [FAQ](faq.html). 
