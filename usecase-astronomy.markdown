@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Start Here 
+title: Myria N-body Use Case
 group: "extra"
 weight: 0
 ---
