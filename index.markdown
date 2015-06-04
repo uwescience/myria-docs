@@ -6,13 +6,10 @@ weight: 0
 ---
 
 # Getting Started with Myria
-
-This is the documentation for the Myria project.
-We cover the following topics:
+This page cover the following topics:
 
 * How to use the Myria demonstration and production services hosted by UW, from either the web front-end, the Python API or an IPython notebook.
 * How to setup your own Myria service, either on a local laptop, cluster or Amazon EC2 instance. 
-	* A case study runnable on your own Myria service for an N-body simulation.
 
 Developers, please see our [Myria Developer](developer.html) page.
 
@@ -118,7 +115,7 @@ Now, we can execute queries on the newly ingested data:
 For more complex analysis, it may be useful to interact with Myria using Python.
 
 #### Part 1: Upload/Download Data
-To upload data, this can be done through the [Python API](myriapython.html). Look under the "Using Python with the Myria Service" section.
+To upload data, this can be done through the [Python API](myriapython.html), under the "Using Python with the Myria Service" section.
 
 #### Part 2: Running Queries on the Service
 
@@ -179,7 +176,8 @@ The instructions to deploy MyriaX on Amazon EC2 are here: [Running Myria on Amaz
 After you setup the engine, you can upload data and run queries through the [Python API](myriapython.html) under the "Using Python with your own Myria Deployment" section. An alternative way to run queries is via the [Myria Web](myriaweb.html) interface.
 
 ### Myria Use Cases
-Under these sections, we detail instructions on how to ingest and run queries required for a specific use case. 
+In addition to the [Python tutorial doc](myriapython.html) referenced above,
+we are developing example real-world use cases here: 
 
 * [N-body](usecase-astronomy.html)
 
