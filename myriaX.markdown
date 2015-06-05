@@ -92,7 +92,7 @@ To use Postgres instead of SQLite, you need to take these additional steps:
 - Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
 
     ```sql
-    create role uwdb with superuser;
+    create role uwdb;
     alter role uwdb with login;
     ```
 - Create Postgres databases. Important: If you have multiple workers
