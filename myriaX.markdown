@@ -88,23 +88,29 @@ Make any desired changes to `deployment.cfg`.
 
 To use Postgres instead of SQLite, you need to take these additional steps:
 
-- Install postgres
-
-- Myria connects to postgres through port 5401 rather than the default port. Change the port on which Postgres listens in the `postgresql.conf` file, and make sure to restart Postgres.
-
+- Install Postgres (e.g., `apt-get install postgresql-9.4`)
 - Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
 
-    `create role uwdb with superuser;`
-
-    `alter role uwdb with login;`
-
+    ```sql
+    create role uwdb;
+    alter role uwdb with login;
+    ```
 - Create Postgres databases. Important: If you have multiple workers
 on the same machine, they need to use different Postgres databases
 (but they can share the same Postgres server instance). For example,
 the configuration in `deployment.cfg.postgres` needs the Postgres
 databases `myria1` and `myria2` on both worker machines:
 
-    `createdb myria1; createdb myria2;`
+    ```sql
+    createdb myria1;
+    createdb myria2;
+    ```
+
+- (Optional) Should you wish Myria to connect via an alternate port, add the following key/value pair to the `[deployment]` section of your Myria deployment file:
+
+    ```ini
+    database_port = [custom port number]
+    ```
 
 
 #### Setup the working directories and catalogs locally and remotely
@@ -121,7 +127,7 @@ in the configuration file (`deployment.cfg`).  Look inside the directory.  You s
 and one catalog file for each worker.  In the case of a deployment in a shared-nothing cluster, the worker catalogs
 get copied to the remote machines.
 
-Notice that this **overwrites** the catalogs: This step will delete all information about previously ingested relations. 
+Notice that this **overwrites** the catalogs: This step will delete all information about previously ingested relations.
 
 
 ### 3. Running the cluster
@@ -152,7 +158,7 @@ A. Query which workers the master knows about. They better match what's in `depl
 
     curl -i localhost:8753/workers
 
-B. Query which workers are alive. 
+B. Query which workers are alive.
 
     curl -i localhost:8753/workers/alive
 
