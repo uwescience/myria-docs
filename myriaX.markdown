@@ -11,15 +11,15 @@ weight: 1
 
 ### 1. Preparation
 
-* Java Version7
+#### Java Version
 
 Make sure `java -version` shows `7` on your machine.
 
-If not, you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
+If not, you can put Java 7 in your directory, and let your `PATH` include it **before** the default `PATH`:
 
     export PATH=(path_to_java7_bin_folder):$PATH
 
-* Passwordless SSH
+#### Passwordless SSH
 
 You need to be able to do `ssh localhost` without typing your password.
 
@@ -38,7 +38,7 @@ Instructions for setting up keys without installing ssh-copy-id can be found [he
 
 To test, run `ssh localhost`.
 
-* Storage
+#### Storage
 
 You need to install [SQLite](http://www.sqlite.org/), which is already pre-installed on many systems. 
 For data storage, MyriaX uses existing single-node relational database management systems. 
@@ -50,7 +50,7 @@ XXX ADD LINK TO EXAMPLE THAT USES HDFS XXX
 
 ### 2. Setting up a local MyriaX deployment
 
-* Download and Build Myria
+#### Download and Build Myria
 
 We suggest that you use `git` because you may want to switch between branches later, although GitHub also offers a ZIP file of the master branch.
 To do that, install `git` and run `git clone https://github.com/uwescience/myria`,
@@ -63,7 +63,7 @@ you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleani
 
 If the build succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-* Deployment configuration file 
+#### Deployment configuration file 
 
 A MyriaX deployment needs a deployment config file. It specifies the details of the
 deployment to start with, such as the worker hostnames and port numbers.
@@ -82,6 +82,7 @@ tables stored in Postgres.
     create role uwdb;
     alter role uwdb with login;
     ```
+
 - Create Postgres databases. Important: If you have multiple workers
 on the same machine, they need to use different Postgres databases
 (but they can share the same Postgres server instance). For example,
@@ -92,14 +93,16 @@ databases `myria1` and `myria2` on both worker machines:
     createdb myria2;
     ```
 You can replace `myria1` and `myria2` with your own databases.
+
 - (Optional) Should you wish Myria to connect via an alternate port, add the
 following key/value pair to the `[deployment]` section of your Myria deployment file:
     ```ini
     database_port = [custom_port_number]
+    ```
 
 ### 3. Running the cluster
 
-* Setup the working directories and catalogs
+#### Setup the working directories and catalogs
 
 Before we can launch the cluster and run queries, we need to setup the catalog and
 the working directories. These initialization steps are automated and executed by the `setup_cluster.py` script.
@@ -114,7 +117,7 @@ If you only want to update the jars without losing information in the catalog, r
 
     ./setup_cluster.py deployment.cfg.local
 
-* Launch the cluster
+#### Launch the cluster
 
 To start the master and the worker processes, execute the following command
 
@@ -132,7 +135,7 @@ If everything is okay, it will start the workers:
 	2 = localhost
 	1 = localhost
 
-* Check the cluster status
+#### Check the cluster status
 
 - Query which workers the master knows about. 
 
@@ -151,7 +154,7 @@ We illustrate the basic functionality using examples in the directory
 `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples.
 The documentation of the full set of REST APIs can be founded [here](http://docs.myriarest.apiary.io/).
 
-* Ingest some data.
+#### Ingest some data.
 
 To ingest tables that are not very large, we can send the data directly to the coordinator through the REST API.
 We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
@@ -167,7 +170,7 @@ To ingest it:
 
 You may need to change the path to your source data file in `ingest_smallTable.json`.
 
-* Run a query.
+#### Run a query.
 
     curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
@@ -177,17 +180,17 @@ The Datalog expression of this query is specified in `global_join.json`. The SQL
 	From smallTable as t1, smallTable as t2
 	Where t1.col2 = t2.col1;
 
-This query writes results back to the backend storage. You should be able to find the result tables in your
+This query writes results back to the backend storage in a relation called `smallTable_join_smallTable`.
+You should be able to find the result tables in your
 databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
-* Download a dataset.
+#### Download a dataset.
 
     curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable_join_smallTable/data
 
-This will download the table `smallTable` in CSV format. JSON and TSV are also supported, to do that, specify the format like this:
+This will download the table `smallTable_join_smallTable` in CSV format. JSON and TSV are also supported, to do that, specify the format like this:
 
     curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable_join_smallTable/data?format=json
-
 
 ### 5. Shutdown the cluster
 
@@ -201,7 +204,7 @@ If there was an error in any query, ingesting data, etc., then the cluster might
 most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can
 force-quit all machines:
 
-    ./stop_all_by_force <deployment.cfg>
+    ./stop_all_by_force deployment.cfg.local
 
 This will go to all the nodes, find the master/worker processes under your username, and kill them.
 
