@@ -7,7 +7,8 @@ weight: 5
 
 # Myria Development
 
-This page explains how to get started with Myria development using GitHub, Git, and Eclipse.
+This page explains how to get started with Myria development using GitHub, Git, 
+and either Eclipse or IntelliJ.
 
 ## 1) GitHub setup
 
@@ -70,18 +71,7 @@ What you do here depends on the version of `git` you have.
 
 This is a bit complicated to explain, but this command changes the default behavior of `git push` with no arguments to something safe and sane. Making this option not the default was a mistake, which will be rectified when "Git 2.0" is released. In the meantime, this is the workaround. See `git config --help` for more information.
 
-## 3) Install the Eclipse IDE
-
-At the time of writing, Eclipse 4.2 (Juno) is the newest version. You can download it from <http://eclipse.org/downloads/>. Your best bet might be the Eclipse IDE for Java Developers <http://eclipse.org/downloads/packages/eclipse-ide-java-developers/junosr1>, but the Classic (and probably any other version) would work just fine as well.
-
-## 4) Install Eclipse plugins
-
-We use a number of Eclipse plugins that help us find bugs and other problems in our code.
-
-* FindBugs, from the PL group at the University of Maryland. See instructions at <http://findbugs.cs.umd.edu/eclipse/>
-* Checkstyle is an open source tool that helps us write good code. See instructions at <http://eclipse-cs.sourceforge.net/downloads.html>
-
-## 5) Clone the code from GitHub
+## 3) Clone the code from GitHub
 
 Navigate to your personal copy of the Myria codebase, usually at <https://github.com/uwescience/myria> where you substitute your user name for `uwescience`. On that project page, a prominent box in the top-center of the screen shows the repository address. Generally, it defaults to HTTP, but we want to use SSH so that we do not need to authenticate every time. (See step 1 above). Push the SSH button and then copy the resulting URL.
 
@@ -99,9 +89,40 @@ Then you can clone it using the command line:
 
 Now you have the code set up locally!
 
-## 6) Setup the Eclipse classpath file
+## 4) Install an IDE
 
-First, switch into the directory, of course.
+You will code much more happily by using an IDE, though any text editor will do the job.
+If you don't already have a favorite IDE, here are setup instructions for two popular ones.
+
+### Eclipse IDE
+
+At the time of writing, Eclipse 4.2 (Juno) is the newest version. You can download it from <http://eclipse.org/downloads/>. Your best bet might be the Eclipse IDE for Java Developers <http://eclipse.org/downloads/packages/eclipse-ide-java-developers/junosr1>, but the Classic (and probably any other version) would work just fine as well.
+
+### IntelliJ IDE
+
+You can download the most recent version of IntelliJ from <https://www.jetbrains.com/idea/download/>.  Choose the free "Community Edition".
+
+## 5) Install IDE Plugins
+We use two plugins that help us find bugs and other problems in our code:
+
+* FindBugs, from the PL group at the University of Maryland. 
+* Checkstyle is an open source tool that helps us write good code. 
+
+Here are their download links, including instructions on how to install plugins:
+
+### Eclipse IDE
+* FindBugs <http://findbugs.cs.umd.edu/eclipse/>
+* Checkstyle <http://eclipse-cs.sourceforge.net/downloads.html>
+
+### IntelliJ IDE
+* FindBugs <https://plugins.jetbrains.com/plugin/3847>
+* Checkstyle <https://plugins.jetbrains.com/plugin/1065>
+
+
+## 6) Import the Myria project into your IDE
+
+### Eclipse IDE
+First, switch into the directory
 
     $ cd myria
 
@@ -115,30 +136,32 @@ Then use `gradlew` to make the Eclipse `.classpath` file ( `gradlew` is a `gradl
 
     Total time: 12.401 secs
 
-## 7) Open the project in Eclipse.
+Then in Eclipse, click through the menu 
+`File > Import > Existing projects into workspace`
+to open the Myria project.
 
-File > Import > Existing projects into workspace
 
-## 8) Troubleshooting
+### IntelliJ IDE
+Goto "import project" in IntelliJ and open the "build.gradle" file in the `myria/` folder.
+IntelliJ will recognize the project as a Gradle project and set it up automatically.
+
+There is a Gradle menu at the right-hand side of the screen, 
+from which you can run the Gradle build, test and other actions. 
+
+## 7) Troubleshooting
 
 If you are experiencing erratic behaviour or Eclipse with many errors, try the following:
 
 ### 1. Refresh the whole project. 
 
-Click on the project `myria` and press `F5`
+In Eclipse, click on the project `myria` and press `F5`.
 
 ### 2. Clean the project
 
-Project > Clean...
+In Eclipse, goto `Project > Clean`
+
+In IntelliJ, goto the Gradle menu and activate the `clean` action.
 
 ### 3. Rebuild Eclipse classpath file
 
-Type the command below in the command prompt
-
-    $ ./gradlew eclipseClasspath
-    :cleanEclipseClasspath
-    :eclipseClasspath
-
-    BUILD SUCCESSFUL
-
-    Total time: 12.401 secs
+Re-type the command `./gradlew eclipseClasspath` as above.
