@@ -17,8 +17,8 @@ To create a key, run ```starcluster createkey UNIQUE_KEYNAME -o ~/.ssh/mykey.rsa
 In the ```~/.starcluster/config``` file, change the key information with the name of your unique key by updating the following parameters:
 
 ```config
-[key mykey] KEY_LOCATION=~/.ssh/mykey.rsa
-
+[key mykey]
+KEY_LOCATION=~/.ssh/mykey.rsa
 KEYNAME = mykey
 ```
 
