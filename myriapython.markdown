@@ -30,17 +30,16 @@ Users can install the Python libraries using `pip install myria-python`. Develop
 
 ### Part 1: Uploading Data
 
-We illustrate the basic functionality using examples in the directory
-`jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run through your terminal (assuming you've setup myria-python):
+We illustrate the basic functionality using examples in the directory `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples. In the example below, we upload the smallTable to the Myria Service. Here is an example you can run in a terminal (assuming you've setup myria-python):
 
-```
+```shell
 myria_upload --overwrite --hostname demo.myria.cs.washington.edu --port 8753 --no-ssl --relation smallTable /path/to/file
 ```
 
 ### Part 2: Running MyriaQL Queries
-In this Python example, we query the smallTable relation by creating a count(*) query using the MyriaQL language.In this query, we store our result to a relation called countResult. To learn more about the Myria query language, check out the [MyriaQL](myriaql.html) page.
+In this Python example, we query the smallTable relation by creating a `count(*)` query using the MyriaQL language. In this query, we store our result to a relation called countResult. To learn more about the Myria query language, see the [MyriaQL](myriaql.html) page.
 
-```
+```python
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
 program = "q = [from scan(public:adhoc:smallTable) as t emit count(*) as countRelation]; store(q, countResult);"
@@ -50,7 +49,7 @@ connection.execute_program(program=program, server="http://demo.myria.cs.washing
 ### Part 3: Downloading Data
 Finally, we can download the result of our query by downloading the countResult table through the following Python program:
 
-```
+```python
 from myria import MyriaConnection, MyriaRelation
 connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
 relation = MyriaRelation('public:adhoc:smallTable', connection=connection)
@@ -59,10 +58,11 @@ print data
 ```
 
 ## Using Python with your own Myria Deployment
-For the examples below, we used localhost as the hostname example. This can be changed depending on where you are hosting Myria. 
+For the examples below, we used `localhost` as the hostname example. This can be changed depending on where you are hosting Myria.
 
 ### Part 1: Uploading Data
-```
+
+```python
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='localhost', port='8753')
 relation = {"userName": "jwang", "programName": "global_join", "relationName": "smallTable"}
@@ -73,23 +73,27 @@ response = connection.upload_source(relation_key=relation, schema=schema, source
 
 Alternatively, you can upload data through the myira-upload tool:
 
-```
+```shell
 myria_upload --hostname localhost --port 8753 --no-ssl --user jwang --program global_join --relation smallTable /path/to/file
 ```
 
 ### Part 2: Building Queries
 We can run a json query by running the following program:
 
-```
+```python
 from myria import MyriaConnection
 connection = MyriaConnection(hostname='localhost', port='8753')
-connection.submit_query(query="/path/to/json/query")
+connection.submit_query(query="""
+	r = scan(public:adhoc:smallTable);
+	q = [from r as t emit count(*) as countRelation];
+	store(q, countResult);
+	""")
 ```
 
 ### Part 3: Downloading Data
 Finally, we can download the result of our query from Part 2 by running the following Python program:
 
-```
+```python
 from myria import MyriaConnection, MyriaRelation
 connection = MyriaConnection(hostname='localhost', port=8753)
 relation = MyriaRelation('jwang:global_join:smallTable_join_smallTable', connection=connection)
@@ -98,14 +102,14 @@ print data
 ```
 
 ## Loading Datasets in Parallel
-```
+```python
 from myria import MyriaConnection, MyriaRelation, MyriaQuery, MyriaSchema
 
 connection = MyriaConnection(hostname='demo.myria.cs.washington.edu', port=8753)
 schema = MyriaSchema({"columnTypes" : ["LONG_TYPE", "LONG_TYPE"], "columnNames" : ["follower", "followee"]})
 relation = MyriaRelation('public:adhoc:parallelLoadTest', connection=connection, schema=schema)
 
-work = [(1, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'), 
+work = [(1, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
         (2, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
         (3, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
         (4, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable')]
