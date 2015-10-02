@@ -11,21 +11,23 @@ weight: 1
 
 ### 1. Preparation
 
-#### Myria needs Java 7
+* Java Version7
+
 Make sure `java -version` shows `7` on your machine.
 
-If not (e.g., UW CSE support-managed machines have Java 6), you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
+If not, you can put Java 7 in your directory, and let your `PATH` include it BEFORE the default `PATH`:
 
-    export PATH=(path to java7 bin folder):$PATH
+    export PATH=(path_to_java7_bin_folder):$PATH
 
-#### Passwordless SSH
+* Passwordless SSH
 
 You need to be able to do `ssh localhost` without typing your password.
 
-- Start SSH Server on your machine to enable remote login. Instructions
-for how to do this can be found [here](http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/).
+ - Start SSH Server on your machine to enable remote login. Instructions
+for how to do this can be found [here](http://osxdaily.com/2011/09/30/remote-login-ssh-server-mac-os-x/) for Mac
+and [here](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring) for Ubuntu.
 
-- Setting up keys. If you have not setup keys before, the easiest way to do it is as follows:
+ - Setting up keys. If you have not setup keys before, the easiest way to do it is as follows:
 
     `ssh-keygen`
 
@@ -36,61 +38,46 @@ Instructions for setting up keys without installing ssh-copy-id can be found [he
 
 To test, run `ssh localhost`.
 
-#### Download Myria
+* Storage
+
+You need to install [SQLite](http://www.sqlite.org/), which is already pre-installed on many systems. 
+For data storage, MyriaX uses existing single-node relational database management systems. 
+You can still use SQLite, but the preferred system is [PostgreSQL](www.postgresql.org) (current version supported: 9.4).
+Instructions can be founded [here](http://www.postgresql.org/download/).
+
+Later, we will show how to execute queries that read data from HDFS or the local file system.
+XXX ADD LINK TO EXAMPLE THAT USES HDFS XXX
+
+### 2. Setting up a local MyriaX deployment
+
+* Download and Build Myria
+
 We suggest that you use `git` because you may want to switch between branches later, although GitHub also offers a ZIP file of the master branch.
 To do that, install `git` and run `git clone https://github.com/uwescience/myria`,
 which creates a directory `myria` with the master branch inside.
 
-#### Build the Myria jar
-
-From within the `myria` directory run `./gradlew jar`.
+To build the Myria jars, run `./gradlew jar` from within the `myria` directory,.
 
 Note: if it is not a fresh installation (e.g. you just switched from another branch),
 you may need to run `./gradlew clean` before `./gradlew jar`. This is for cleaning different versions of Java libraries.
 
 If the build succeeded, you should be able to see jars in `build/libs` including `myria-0.1.jar`.
 
-### 2. Setting up a local MyriaX deployment
+* Deployment configuration file 
 
-The next step is to setup a local deployment of the MyriaX query execution
-engine. The local deployment will have a coordinator process and some worker
-processes. All processes will run locally.
-
-For data storage, MyriaX uses existing single-node relational
-database management systems.  The preferred system is
-[PostgreSQL](www.postgresql.org), but you can also use
-[SQLite](http://www.sqlite.org/), which is already pre-installed on
-many systems. Later, we will show how to execute queries that read
-data from HDFS or the local file system.
-XXX ADD LINK TO EXAMPLE THAT USES HDFS XXX
-
-To start a local MyriaX deployment, take the following steps:
-
-Go to `myriadeploy`.
-
-#### Deployment configuration file (and Postgres setup)
-
-The deployment configuration file specifies the details of the
-deployment such as the number of worker processes to start.
-
+A MyriaX deployment needs a deployment config file. It specifies the details of the
+deployment to start with, such as the worker hostnames and port numbers.
 The `myriadeploy` directory contains some example configuration files.
+In this doc, we will be using `deployment.cfg.local` as a starting point, which creates
+a deployment with one coordinator process and two worker processes, and uses
+SQLite as the storage backend. You can also make your own changes to it.
 
-For a local deployment, use `deployment.cfg.local` as a starting point.
-
-Make a copy:
-
-    cp deployment.cfg.local deployment.cfg
-
-Make any desired changes to `deployment.cfg`.
-
-`deployment.cfg.local` uses SQLite as the storage backend. If you want to use [PostgreSQL](www.postgresql.org),
+If you want to use [PostgreSQL](www.postgresql.org),
 `deployment.cfg.postgres` shows how to set up the configuration file.
+You need to take these additional steps:
 
-To use Postgres instead of SQLite, you need to take these additional steps:
-
-- Install Postgres (e.g., `apt-get install postgresql-9.4`)
-- Create a `uwdb` role which Myria will use to manage the tables stored in Postgres.
-
+- Create a `uwdb` role in all your Postgres instances which Myria will use to manage the
+tables stored in Postgres.
     ```sql
     create role uwdb;
     alter role uwdb with login;
@@ -98,47 +85,40 @@ To use Postgres instead of SQLite, you need to take these additional steps:
 - Create Postgres databases. Important: If you have multiple workers
 on the same machine, they need to use different Postgres databases
 (but they can share the same Postgres server instance). For example,
-the configuration in `deployment.cfg.postgres` needs the Postgres
+the configuration in `deployment.cfg.postgres` needs both Postgres
 databases `myria1` and `myria2` on both worker machines:
-
     ```sql
     createdb myria1;
     createdb myria2;
     ```
-
-- (Optional) Should you wish Myria to connect via an alternate port, add the following key/value pair to the `[deployment]` section of your Myria deployment file:
-
+You can replace `myria1` and `myria2` with your own databases.
+- (Optional) Should you wish Myria to connect via an alternate port, add the
+following key/value pair to the `[deployment]` section of your Myria deployment file:
     ```ini
-    database_port = [custom port number]
-    ```
-
-
-#### Setup the working directories and catalogs locally and remotely
-
-Before we can start the cluster and run queries, we need to setup the system catalogs (locally and remotely) and
-the working directories (remotely). These initialization steps are automated and executed by the `setup_cluster.py` script.
-
-To initialize (or re-initialize) a new Myria cluster configuration, execute the following command:
-
-    ./setup_cluster.py <deployment.cfg>
-
-This will: Create a directory locally. The name of that directory will be the name of the cluster as specified
-in the configuration file (`deployment.cfg`).  Look inside the directory.  You should see the catalog file for the master
-and one catalog file for each worker.  In the case of a deployment in a shared-nothing cluster, the worker catalogs
-get copied to the remote machines.
-
-Notice that this **overwrites** the catalogs: This step will delete all information about previously ingested relations.
-
+    database_port = [custom_port_number]
 
 ### 3. Running the cluster
 
-Everything is now ready to start the MyriaX query execution engine.
+* Setup the working directories and catalogs
 
-#### Launch the cluster
+Before we can launch the cluster and run queries, we need to setup the catalog and
+the working directories. These initialization steps are automated and executed by the `setup_cluster.py` script.
+
+To initialize (or re-initialize) a new Myria cluster configuration, execute the following command:
+
+    ./setup_cluster.py deployment.cfg.local --clean-catalog
+
+This will create the catalog and the working directories in `/tmp/myria/twoNodeLocalParallel".
+Notice that this **overwrites** the catalogs: all information about previously ingested relations will be removed.
+If you only want to update the jars without losing information in the catalog, run:
+
+    ./setup_cluster.py deployment.cfg.local
+
+* Launch the cluster
 
 To start the master and the worker processes, execute the following command
 
-    ./launch_cluster.sh <deployment.cfg>
+    ./launch_cluster.sh deployment.cfg.local
 
 This command will output things like the following:
 
@@ -152,29 +132,26 @@ If everything is okay, it will start the workers:
 	2 = localhost
 	1 = localhost
 
-#### Check the cluster status
+* Check the cluster status
 
-A. Query which workers the master knows about. They better match what's in `deployment.cfg`!
+- Query which workers the master knows about. 
 
     curl -i localhost:8753/workers
 
-B. Query which workers are alive.
+- Query which workers are alive. They better match what's in `deployment.cfg.local`!
 
     curl -i localhost:8753/workers/alive
 
-#### Using the cluster
+### 4. Using the cluster
 
 To execute queries, we send requests to the coordinator using the coordinator's REST API.
 The coordinator takes query plans in JSON format as input.
 
-XXX HERE ADD LINK TO DOCUMENTATION OF THE API XXX
-
-XXX HERE ADD LINK TO DOCUMENTATION OF THE JSON FORMAT FOR QUERIES  XXX
-
 We illustrate the basic functionality using examples in the directory
 `jsonQueries/getting_started`. The  `jsonQueries` directory contains additional examples.
+The documentation of the full set of REST APIs can be founded [here](http://docs.myriarest.apiary.io/).
 
-A. Ingest some data.
+* Ingest some data.
 
 To ingest tables that are not very large, we can send the data directly to the coordinator through the REST API.
 We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
@@ -190,7 +167,7 @@ To ingest it:
 
 You may need to change the path to your source data file in `ingest_smallTable.json`.
 
-B. Run a query.
+* Run a query.
 
     curl -i -XPOST localhost:8753/query -H "Content-type: application/json"  -d @./global_join.json
 
@@ -200,32 +177,33 @@ The Datalog expression of this query is specified in `global_join.json`. The SQL
 	From smallTable as t1, smallTable as t2
 	Where t1.col2 = t2.col1;
 
-This query writes results back to the backend storage. You should be able to find the result tables in your databases. The table name is specified in the `DbInsert` operator, change it if you want.
+This query writes results back to the backend storage. You should be able to find the result tables in your
+databases. The table name is specified in the `DbInsert` operator, change it if you want.
 
-C. Download a dataset.
+* Download a dataset.
 
-    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable/data
+    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable_join_smallTable/data
 
 This will download the table `smallTable` in CSV format. JSON and TSV are also supported, to do that, specify the format like this:
 
-    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable/data?format=json
+    curl -i localhost:8753/dataset/user-jwang/program-global_join/relation-smallTable_join_smallTable/data?format=json
 
 
-#### Shutdown the cluster
+### 5. Shutdown the cluster
 
-A. Shutdown the whole cluster via the REST API:
+Shutdown the whole cluster via the REST API:
 
     curl -i localhost:8753/server/shutdown
 
 This will shutdown everything, including the master and all the workers.
 
-
-B. If there was an error in any query, ingesting data, etc., then the cluster might freeze and most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can force-quit all machines:
+If there was an error in any query, ingesting data, etc., then the cluster might freeze and
+most commands that involve workers (e.g., queries, ingestion, and shutdown) would not work. You can
+force-quit all machines:
 
     ./stop_all_by_force <deployment.cfg>
 
 This will go to all the nodes, find the master/worker processes under your username, and kill them.
-
 
 
 ## Using a shared-nothing cluster
@@ -234,7 +212,6 @@ To use a shared-nothing cluster to run MyriaX instead of your local
 machine, specify the cluster configuration, including the machine names,
 port numbers, working directories, database names, etc, in your
 `deployment.cfg` file.
-
 See `deployment.cfg.sample` for an example.
 
 Similar to local installation, make sure you have: Java 7,
