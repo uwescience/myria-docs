@@ -101,6 +101,20 @@ data = relation.to_dict()
 print data
 ```
 
+Relations may also be converted to Pandas dataframes or (indirectly) into Numpy arrays:
+
+```python
+from myria import MyriaConnection, MyriaRelation
+connection = MyriaConnection(hostname='localhost', port=8753)
+relation = MyriaRelation('jwang:global_join:smallTable_join_smallTable', connection=connection)
+
+# Dataframe
+print relation.to_dataframe()
+
+# Numpy Array
+print relation.to_dataframe().as_matrix()
+```
+
 ## Loading Datasets in Parallel
 ```python
 from myria import MyriaConnection, MyriaRelation, MyriaQuery, MyriaSchema
@@ -117,3 +131,6 @@ work = [(1, 'https://s3-us-west-2.amazonaws.com/uwdb/sampleData/smallTable'),
 queryImport = MyriaQuery.parallel_import(relation=relation, work=work)
 ```
 
+## Using Myria in an IPython Notebook
+
+The Myria IPython extension offers several convenience facilities to interact with Myria in the context of an IPython notebook.  See our [walkthrough of these features](https://github.com/uwescience/myria-python/blob/master/ipnb%20examples/myria%20examples.ipynb).
