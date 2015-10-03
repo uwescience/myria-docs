@@ -45,9 +45,6 @@ For data storage, MyriaX uses existing single-node relational database managemen
 You can still use SQLite, but the preferred system is [PostgreSQL](www.postgresql.org) (current version supported: 9.4).
 Instructions can be founded [here](http://www.postgresql.org/download/).
 
-Later, we will show how to execute queries that read data from HDFS or the local file system.
-XXX ADD LINK TO EXAMPLE THAT USES HDFS XXX
-
 ### 2. Setting up a local MyriaX deployment
 
 #### Download and Build Myria
@@ -157,9 +154,8 @@ The documentation of the full set of REST APIs can be founded [here](http://docs
 #### Ingest some data.
 
 To ingest tables that are not very large, we can send the data directly to the coordinator through the REST API.
-We discuss how to ingest larger tables XXX POINTER TO DOCUMENTATION XXX.
-
-The schema of the table `smallTable`, as specified in `ingest_smallTable.json`, is:
+Here we use `ingest_smallTable.json` as the example.
+As specified in `ingest_smallTable.json`, it ingests the text file `smallTable` with the following schema:
 
     "columnTypes" : ["LONG_TYPE", "LONG_TYPE"],
     "columnNames" : ["col1", "col2"]
@@ -169,6 +165,10 @@ To ingest it:
     curl -i -XPOST localhost:8753/dataset -H "Content-type: application/json"  -d @./ingest_smallTable.json
 
 You may need to change the path to your source data file in `ingest_smallTable.json`.
+
+To ingest a large dataset in parallel, one way is to use the `load` function in
+[MyriaL](http://myria.cs.washington.edu/docs/myriaql.html), which generates a parallel ingest query plan automatically.
+You can also use it to ingest data from an URL, for example, a location in HDFS or S3.
 
 #### Run a query.
 
